@@ -1,2 +1,5 @@
-package kakao99.brainform.entity;public enum Gender {
+package kakao99.brainform.entity;
+
+public enum Gender {
+    MALE, FEMALE
 }
