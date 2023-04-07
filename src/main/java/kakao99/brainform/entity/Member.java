@@ -20,7 +20,7 @@ public class Member {
 
     @Column
     @NotNull
-    private Gender gender;
+    private String gender;
 
     @Column
     @NotNull
