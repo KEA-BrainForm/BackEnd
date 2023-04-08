@@ -24,7 +24,7 @@ public class Member {
 
     @Column
     @NotNull
-    private int age;
+    private String age;
 
     @Column
     @NotNull

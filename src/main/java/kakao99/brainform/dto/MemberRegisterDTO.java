@@ -23,7 +23,7 @@ public class MemberRegisterDTO implements Serializable {
     private String gender;
 
     @NotNull
-    private int age;
+    private String age;
 
     @NotNull
     private String job;
