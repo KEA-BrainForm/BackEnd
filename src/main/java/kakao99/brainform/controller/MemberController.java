@@ -18,7 +18,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     public ResponseEntity<?> register(@Validated @RequestBody MemberRegisterDTO dto) {
 
         memberService.register(dto);
