@@ -8,6 +8,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -64,6 +68,9 @@ public class Member {
     private Boolean isActive;
 
 
+    @ElementCollection(fetch = FetchType.EAGER) //roles 컬렉션
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
 }
 
 
