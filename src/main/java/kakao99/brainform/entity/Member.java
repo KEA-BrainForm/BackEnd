@@ -1,18 +1,18 @@
 package kakao99.brainform.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+
+import kakao99.brainform.dto.MemberRegisterDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import java.util.Date;
 import java.util.List;
 
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -28,33 +28,25 @@ public class Member {
     private Long id;
 
     @Column
-    @NotNull
     private String username;
 
     @Column
-    @NotNull
     private String nickname;
 
     @Column
-    @NotNull
     private String gender;
 
     @Column
-    @NotNull
     private String age;
 
     @Column
-    @NotNull
+    private String email;
+
+    @Column
     private String job;
 
-    @Column(name = "kakao_id")
-    private String kakaoId;
-
-    @Column(name = "google_id")
-    private String googleId;
-
-    @Column(name = "naver_id")
-    private String naverId;
+    @Column
+    private String provider;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -79,6 +71,23 @@ public class Member {
     @ElementCollection(fetch = FetchType.EAGER) //roles 컬렉션
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    public Member updateOAuth(String email, String username) {
+        this.email = email;
+        this.username = username;
+
+        return this;
+    }
+
+    public Member register(MemberRegisterDTO dto) {
+        this.nickname = dto.getNickname();
+        this.age = dto.getAge();
+        this.gender = dto.getGender();
+        this.job = dto.getJob();
+        this.roles = Collections.singletonList("ROLE_USER");
+
+        return this;
+    }
 }
 
 
