@@ -50,8 +50,8 @@ public class TokenProvider implements InitializingBean {
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
         return Jwts.builder()
-                .setSubject(member.getEmail())
-                .claim("user_id",member.getId())
+                .setSubject(String.valueOf(member.getId()))
+                .claim("member", member)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
@@ -66,7 +66,7 @@ public class TokenProvider implements InitializingBean {
                 .getBody();
 
 
-        Optional<Member> member = memberRepository.findById(Long.valueOf(claims.get("user_id").toString()));
+        Optional<Member> member = memberRepository.findById(Long.valueOf(claims.getSubject()));
         return new UsernamePasswordAuthenticationToken(member.get(),token);
     }
 
