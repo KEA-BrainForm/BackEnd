@@ -1,6 +1,8 @@
 package kakao99.brainform.entity.anwer;
 
 import jakarta.persistence.*;
+import kakao99.brainform.entity.MemberSurvey;
+import kakao99.brainform.entity.question.YesOrNoQuestion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,23 +21,12 @@ public class YesOrNoAnswer {
     private Long id;
 
     private Boolean answer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private YesOrNoQuestion yesOrNoQuestion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "surveyee_id")
+    private MemberSurvey memberSurvey;
 }
-
-
-/*
-
-@Entity
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Table(name = "subjective_answer")
-public class SubjectiveAnswer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String answer;
-}
-
- */
