@@ -6,7 +6,9 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,7 +18,8 @@ import java.util.Date;
 @Table(name = "member")
 public class Member {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
@@ -63,6 +66,11 @@ public class Member {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberSurvey> memberSurveys = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Survey> survey;
 
 }
 
