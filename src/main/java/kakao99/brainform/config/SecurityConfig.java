@@ -4,6 +4,8 @@ import kakao99.brainform.jwt.JwtAccessDeniedHandler;
 import kakao99.brainform.jwt.JwtAuthenticationEntryPoint;
 import kakao99.brainform.jwt.JwtSecurityConfig;
 import kakao99.brainform.jwt.TokenProvider;
+import kakao99.brainform.oauth.CustomOAuth2UserService;
+import kakao99.brainform.oauth.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +31,10 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -56,12 +62,18 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/").permitAll()
+                .requestMatchers("/**").permitAll()
                 .requestMatchers("/user/login").permitAll()
                 .requestMatchers("/user/signup").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenProvider))
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuth2SuccessHandler);
 
         return http.build();
     }

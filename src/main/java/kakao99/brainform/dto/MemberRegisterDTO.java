@@ -1,5 +1,7 @@
 package kakao99.brainform.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import kakao99.brainform.entity.Member;
 import lombok.*;
 
@@ -12,19 +14,18 @@ import java.io.Serializable;
 @ToString
 public class MemberRegisterDTO implements Serializable {
 
-    private String username;
-
+    @NotEmpty
+    private String nickname;
+    @NotEmpty
     private String gender;
-
-    private String email;
-
+    @NotEmpty
     private String age;
-
+    @NotEmpty
     private String job;
 
     public Member toEntity() {
         return Member.builder()
-                .username(username)
+                .nickname(nickname)
                 .gender(gender)
                 .age(age)
                 .job(job)

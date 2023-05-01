@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -26,20 +27,12 @@ public class MemberService {
     private final MemberRepository memberRepository;
     
     private final TokenProvider tokenProvider;
-    
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public Member register(MemberRegisterDTO dto) {
-        Member member = Member.builder()
-                .username(dto.getUsername())
-                .email(dto.getEmail())
-                .job(dto.getJob())
-                .age(dto.getAge())
-                .gender(dto.getGender())
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build();
 
-        return memberRepository.save(member);
+    public Member join(MemberRegisterDTO dto, Authentication authentication) {
+        Member member = (Member) authentication.getPrincipal();
+
+        return memberRepository.save(member.register(dto));
     }
     
     public String login(MemberLoginDTO loginDTO) {
