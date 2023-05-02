@@ -1,5 +1,7 @@
 package kakao99.brainform.controller.question;
 
+import kakao99.brainform.dto.MultiQuestionDto;
+import kakao99.brainform.dto.SubQuestionDto;
 import kakao99.brainform.entity.question.SubjectiveQuestion;
 import kakao99.brainform.service.question.SubjectiveQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/subjectivequestion")
+@RequestMapping("/api/subjectivequestion")
 public class SubjectiveQuestionController {
     @Autowired
     private SubjectiveQuestionService subjectiveQuestionService;
 
     @PostMapping
-    public ResponseEntity<SubjectiveQuestion> createQuestion(@RequestBody SubjectiveQuestion question) {
-        return ResponseEntity.ok(subjectiveQuestionService.createQuestion(question));
+    public ResponseEntity<SubjectiveQuestion> createQuestion(@RequestBody SubQuestionDto dto) {
+        return ResponseEntity.ok(subjectiveQuestionService.createQuestion(dto));
     }
 
     @GetMapping("/{id}")

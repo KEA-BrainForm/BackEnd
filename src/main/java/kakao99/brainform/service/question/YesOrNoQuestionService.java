@@ -1,5 +1,7 @@
 package kakao99.brainform.service.question;
 
+import kakao99.brainform.dto.YesOrNoQuestionDto;
+import kakao99.brainform.entity.question.SubjectiveQuestion;
 import kakao99.brainform.entity.question.YesOrNoQuestion;
 import kakao99.brainform.repository.YesOrNoQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,9 @@ public class YesOrNoQuestionService {
     @Autowired
     private YesOrNoQuestionRepository yesOrNoQuestionRepository;
 
-    public YesOrNoQuestion createQuestion(YesOrNoQuestion question) {
+    public YesOrNoQuestion createQuestion(YesOrNoQuestionDto questionDto) {
+        YesOrNoQuestion question = new YesOrNoQuestion();
+        question.setQuestion(questionDto.getTitle());
         return yesOrNoQuestionRepository.save(question);
     }
 
