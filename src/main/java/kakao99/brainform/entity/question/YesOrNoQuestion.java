@@ -31,4 +31,8 @@ public class YesOrNoQuestion {
 
     @OneToMany(mappedBy = "yesOrNoQuestion", fetch = FetchType.LAZY)
     private List<YesOrNoAnswer> yesOrNoAnswer;
+
+    public void setQuestion(String title) {
+        this.question = title;
+    }
 }

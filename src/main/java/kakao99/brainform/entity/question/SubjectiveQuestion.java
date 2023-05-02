@@ -32,4 +32,8 @@ public class SubjectiveQuestion {
 
     @OneToMany(mappedBy = "subjectiveQuestion", fetch = FetchType.LAZY)
     private List<SubjectiveAnswer> subjectiveAnswers;
+
+    public void setQuestion(String title) {
+        this.question = title;
+    }
 }
