@@ -1,4 +1,4 @@
-package kakao99.brainform.repository;
+package kakao99.brainform.repository.answer;
 
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import org.springframework.data.jpa.repository.JpaRepository;

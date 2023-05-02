@@ -1,18 +1,16 @@
 package kakao99.brainform.entity.question;
 
 import jakarta.persistence.*;
+import kakao99.brainform.dto.QuestionInterface;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,6 +23,8 @@ public class MultipleChoiceQuestion {
 
 
     private Integer num;
+    private String question;
+
     private Integer count;
     private String choice1;
     private String choice2;
@@ -38,4 +38,12 @@ public class MultipleChoiceQuestion {
 
     @OneToMany(mappedBy = "multipleChoiceQuestion", fetch = FetchType.LAZY)
     private List<MultipleChoiceAnswer> multipleChoiceAnswers;
+
+    public void setChoice(String o, String o1, String o2, String o3, String o4) {
+        this.choice1 = o;
+        this.choice2 = o1;
+        this.choice3 = o2;
+        this.choice4 = o3;
+        this.choice5 = o4;
+    }
 }

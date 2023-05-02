@@ -1,4 +1,4 @@
-package kakao99.brainform.repository;
+package kakao99.brainform.repository.question;
 
 import kakao99.brainform.entity.question.YesOrNoQuestion;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,5 +8,8 @@ import java.util.List;
 
 @Repository
 public interface YesOrNoQuestionRepository extends JpaRepository<YesOrNoQuestion, Long> {
+
+    YesOrNoQuestion save(YesOrNoQuestion yesOrNoQuestion);
     List<YesOrNoQuestion> findBySurveyId(Long surveyId);
+
 }

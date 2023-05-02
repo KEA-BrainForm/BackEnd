@@ -1,7 +1,7 @@
 package kakao99.brainform.service.answer;
 
 import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
-import kakao99.brainform.repository.MultipleChoiceAnswerRepository;
+import kakao99.brainform.repository.answer.MultipleChoiceAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

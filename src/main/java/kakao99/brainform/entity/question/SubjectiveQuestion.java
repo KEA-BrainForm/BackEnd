@@ -1,18 +1,16 @@
 package kakao99.brainform.entity.question;
 
 import jakarta.persistence.*;
+import kakao99.brainform.dto.QuestionInterface;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.SubjectiveAnswer;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

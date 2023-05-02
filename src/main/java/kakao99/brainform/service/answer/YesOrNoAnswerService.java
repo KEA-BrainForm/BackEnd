@@ -1,7 +1,7 @@
 package kakao99.brainform.service.answer;
 
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
-import kakao99.brainform.repository.YesOrNoAnswerRepository;
+import kakao99.brainform.repository.answer.YesOrNoAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

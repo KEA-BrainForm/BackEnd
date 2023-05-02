@@ -1,11 +1,7 @@
 package kakao99.brainform.dto;
 
 import jakarta.validation.constraints.NotNull;
-import kakao99.brainform.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,13 +10,13 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateQuestionDto implements Serializable {
+public class CreateQuestionDto{
 
     @NotNull
     private String title;
 
     @NotNull
-    private List<?> questionList;
+    private List<CreateQuestionInput> questionList;
 
     @NotNull
     private String visibility;

@@ -1,7 +1,7 @@
 package kakao99.brainform.service.answer;
 
 import kakao99.brainform.entity.anwer.SubjectiveAnswer;
-import kakao99.brainform.repository.SubjectiveAnswerRepository;
+import kakao99.brainform.repository.answer.SubjectiveAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
