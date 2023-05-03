@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class QuestionService {
+public class SurveyService {
     private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
     private final YesOrNoQuestionRepository yesOrNoQuestionRepository;
     private final SubjectiveQuestionRepository subjectiveQuestionRepository;
@@ -68,5 +68,9 @@ public class QuestionService {
                 throw new IllegalArgumentException();
             }
         }
+    }
+
+    public Survey findSurveyById(Long id) {
+        return surveyRepository.findSurveyById(id);
     }
 }
