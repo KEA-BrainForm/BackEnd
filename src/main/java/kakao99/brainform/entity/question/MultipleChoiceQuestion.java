@@ -1,7 +1,6 @@
 package kakao99.brainform.entity.question;
 
 import jakarta.persistence.*;
-import kakao99.brainform.dto.QuestionInterface;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;

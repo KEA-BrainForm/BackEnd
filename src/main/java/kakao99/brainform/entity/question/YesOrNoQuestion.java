@@ -1,7 +1,6 @@
 package kakao99.brainform.entity.question;
 
 import jakarta.persistence.*;
-import kakao99.brainform.dto.QuestionInterface;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import lombok.*;
@@ -29,4 +28,8 @@ public class YesOrNoQuestion {
 
     @OneToMany(mappedBy = "yesOrNoQuestion", fetch = FetchType.LAZY)
     private List<YesOrNoAnswer> yesOrNoAnswer;
+
+    public void setQuestion(String title) {
+        this.question = title;
+    }
 }

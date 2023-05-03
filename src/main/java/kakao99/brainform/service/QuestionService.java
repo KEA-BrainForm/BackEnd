@@ -49,17 +49,20 @@ public class QuestionService {
                 multipleChoiceQuestion.setChoice(texts[0], texts[1] , texts[2] , texts[3] , texts[4]);
                 multipleChoiceQuestion.setCount(options.size());
                 multipleChoiceQuestionRepository.save(multipleChoiceQuestion);
+
             } else if (questionList.get(i).getType().equalsIgnoreCase("shortAnswer")) {
                 SubjectiveQuestion subjectiveQuestion = new SubjectiveQuestion();
                 subjectiveQuestion.setSurvey(survey);
                 subjectiveQuestion.setNum(questionList.get(i).getId());
                 subjectiveQuestion.setQuestion(questionList.get(i).getTitle());
                 subjectiveQuestionRepository.save(subjectiveQuestion);
+
             } else if (questionList.get(i).getType().equalsIgnoreCase("yesOrNo")) {
                 YesOrNoQuestion yesOrNoQuestion = new YesOrNoQuestion();
                 yesOrNoQuestion.setSurvey(survey);
                 yesOrNoQuestion.setNum(questionList.get(i).getId());
                 yesOrNoQuestion.setQuestion(questionList.get(i).getTitle());
+
                 yesOrNoQuestionRepository.save(yesOrNoQuestion);
             } else {
                 throw new IllegalArgumentException();
