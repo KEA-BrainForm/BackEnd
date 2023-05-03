@@ -7,12 +7,13 @@ import kakao99.brainform.entity.question.YesOrNoQuestion;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,10 +27,10 @@ public class Survey {
     private String title;
 
     @Column(name = "is_open")
-    private Boolean isOpen;
+    private String isOpen;
 
     @Column(name = "is_brainwave")
-    private Boolean isBrainwave;
+    private String isBrainwave;
 
     @Column(name = "answer_period")
     private Date answerPeriod;
