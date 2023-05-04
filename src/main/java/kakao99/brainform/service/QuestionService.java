@@ -13,14 +13,13 @@ import kakao99.brainform.repository.question.YesOrNoQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class SurveyService {
+public class QuestionService {
     private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
     private final YesOrNoQuestionRepository yesOrNoQuestionRepository;
     private final SubjectiveQuestionRepository subjectiveQuestionRepository;
