@@ -3,8 +3,12 @@ package kakao99.brainform.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.transaction.Transactional;
+import kakao99.brainform.dto.RefreshToken;
 import kakao99.brainform.entity.Member;
 import kakao99.brainform.repository.MemberRepository;
+import kakao99.brainform.repository.RefreshTokenRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,15 +30,19 @@ public class TokenProvider implements InitializingBean {
     private final String secret;
     private final long tokenValidityInMilliseconds;
 
+    private final RefreshTokenRepository refreshTokenRepository;
+
 
     private final MemberRepository memberRepository;
     private Key key;
 
     public TokenProvider (
             @Value("${jwt.secret}") String secret,
-            @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds, MemberRepository memberRepository) {
+            @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds, RefreshTokenRepository refreshTokenRepository,
+            MemberRepository memberRepository) {
         this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+        this.refreshTokenRepository = refreshTokenRepository;
         this.memberRepository = memberRepository;
     }
 
@@ -44,7 +52,8 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(Member member) {
+    @Transactional
+    public String createAccessToken(Member member) {
 
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
@@ -55,6 +64,25 @@ public class TokenProvider implements InitializingBean {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
+    }
+
+    public String createRefreshToken(Member member) {
+
+        long now = (new Date()).getTime();
+        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+
+        String token = Jwts.builder()
+                .setSubject(String.valueOf(member.getId()))
+                .claim("email", member.getEmail())
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setExpiration(validity)
+                .compact();
+
+        RefreshToken refreshToken = new RefreshToken(member.getId(), token);
+
+        refreshTokenRepository.save(refreshToken);
+
+        return token;
     }
 
     public Authentication getAuthentication(String token) {

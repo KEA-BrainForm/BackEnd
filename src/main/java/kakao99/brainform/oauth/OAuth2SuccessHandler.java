@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kakao99.brainform.dto.TokenDTO;
 import kakao99.brainform.entity.Member;
 import kakao99.brainform.jwt.TokenProvider;
 import kakao99.brainform.repository.MemberRepository;
@@ -73,12 +74,17 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         if (findMemberByEmail.isEmpty()) {
             Member member = saveOrUpdate(oAuthEmail,oAuthUserName, provider);
-            String token = tokenProvider.createToken(member);
+            String token = tokenProvider.createAccessToken(member);
             response.sendRedirect("http://localhost:3000/signup?token=" + token);
         } else {
-            String token = tokenProvider.createToken(findMemberByEmail.get());
+            String accessToken = tokenProvider.createAccessToken(findMemberByEmail.get());
+            String refreshToken = tokenProvider.createRefreshToken(findMemberByEmail.get());
+
+            TokenDTO token = new TokenDTO(accessToken, refreshToken);
             response.sendRedirect("http://localhost:3000/social-login?token=" + token);
         }
+
+
     }
 
     private Member saveOrUpdate(String email, String name, String provider) {

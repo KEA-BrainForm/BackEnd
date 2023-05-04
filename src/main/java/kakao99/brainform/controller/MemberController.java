@@ -1,11 +1,18 @@
 package kakao99.brainform.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kakao99.brainform.dto.MemberLoginDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
+import kakao99.brainform.dto.TokenDTO;
 import kakao99.brainform.dto.MemberRegisterDTO;
 
+import kakao99.brainform.entity.BrainMemberInfo;
 import kakao99.brainform.entity.Member;
+import kakao99.brainform.entity.Survey;
+import kakao99.brainform.repository.SurveyRepository;
 import kakao99.brainform.service.MemberService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +31,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+
     private final ObjectMapper objectMapper;
 
     @SneakyThrows
@@ -35,28 +43,41 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>("값을 모두 입력해주세요", HttpStatus.BAD_REQUEST);
         }
-        memberService.join(dto, authentication);
 
-        return new ResponseEntity<>("회원가입이 완료되었습니다.", HttpStatus.OK);
+        TokenDTO token = memberService.join(dto, authentication);
+
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
-    @PostMapping("/user/login")
-    public String login(@RequestBody MemberLoginDTO loginDTO) {
 
-        log.info("로그인 시도");
-
-        String token = memberService.login(loginDTO);
-
-        log.info("로그인 완료");
-        return token;
-    }
-
-    @GetMapping("/user/jwt")
-    public Member memberInfo(Authentication authentication) {
-
+    @PostMapping("/{id}/{code}")
+    public ResponseEntity<?> getBrainCode(@PathVariable(name = "code") String code,
+                               @RequestParam(name = "id") Long surveyId,
+                               Authentication authentication,
+                               HttpServletRequest request) {
         Member member = (Member) authentication.getPrincipal();
+        HttpSession session = request.getSession();
 
-        return member;
+        BrainMemberInfo brainMemberInfo = BrainMemberInfo.builder()
+                .code(code)
+                .surveyId(surveyId)
+                .memberId(member.getId())
+                .flag(true)
+                .build();
+
+        session.setAttribute(code, brainMemberInfo);
+
+        return new ResponseEntity<>("설문을 시작해주세요", HttpStatus.OK);
+    }
+
+    @GetMapping("/userInfo/{code}")
+    public BrainMemberInfo sendMemberInfo(@PathVariable(name = "code") String code,
+                                          HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        BrainMemberInfo brainMemberInfo = (BrainMemberInfo) session.getAttribute(code);
+
+        return brainMemberInfo;
     }
 }
 
