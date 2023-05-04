@@ -1,5 +1,8 @@
 package kakao99.brainform.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
 import kakao99.brainform.entity.question.SubjectiveQuestion;
@@ -13,14 +16,16 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "survey")
 public class Survey {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "survey_id")
     private Long id;
 
@@ -50,11 +55,14 @@ public class Survey {
     private Member member;
 
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<YesOrNoQuestion> yesOrNoQueQuestions;
 
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<MultipleChoiceQuestion> multipleChoiceQuestions;
 
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<SubjectiveQuestion> subjectiveQuestions;
 }

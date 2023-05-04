@@ -23,4 +23,7 @@ public class CreateQuestionDto{
 
     @NotNull
     private String wearable;
+
+    @NotNull
+    private Long surveyId;
 }

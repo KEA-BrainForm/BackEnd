@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class QuestionService {
 
     public Survey createSurvey(CreateQuestionDto obj) {
         Survey survey = new Survey();
+        survey.setId(obj.getSurveyId());
         survey.setIsOpen(obj.getVisibility());
         survey.setIsBrainwave(obj.getWearable());
         survey.setTitle(obj.getTitle());
@@ -69,4 +71,14 @@ public class QuestionService {
             }
         }
     }
+
+    public Survey findQuestionById(Long id) {
+        //surveyRepository.findById(survey_id);
+        Optional<Survey> findSurvey = surveyRepository.findById(id);
+        if (findSurvey.isPresent()) {
+            return findSurvey.get();
+        }
+        return null;
 }
+}
+
