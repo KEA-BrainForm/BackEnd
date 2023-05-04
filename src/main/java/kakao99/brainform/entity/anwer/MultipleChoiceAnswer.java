@@ -1,17 +1,14 @@
 package kakao99.brainform.entity.anwer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import kakao99.brainform.entity.MemberSurvey;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
-import kakao99.brainform.entity.question.YesOrNoQuestion;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,10 +24,12 @@ public class MultipleChoiceAnswer {
     private String answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "question_id")
     private MultipleChoiceQuestion multipleChoiceQuestion;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "surveyee_id")
     private MemberSurvey memberSurvey;
 
