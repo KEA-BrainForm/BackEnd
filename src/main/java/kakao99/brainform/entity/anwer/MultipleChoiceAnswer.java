@@ -1,6 +1,7 @@
 package kakao99.brainform.entity.anwer;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import kakao99.brainform.entity.MemberSurvey;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
 import kakao99.brainform.entity.question.YesOrNoQuestion;
@@ -21,6 +22,8 @@ public class MultipleChoiceAnswer {
     @Column(name = "answer_id")
     private Long id;
 
+    //private int num;
+
     private String answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,6 +34,9 @@ public class MultipleChoiceAnswer {
     @JoinColumn(name = "surveyee_id")
     private MemberSurvey memberSurvey;
 
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 }
 
 
