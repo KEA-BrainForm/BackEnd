@@ -13,7 +13,6 @@ import kakao99.brainform.repository.question.YesOrNoQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -73,17 +72,13 @@ public class QuestionService {
         }
     }
 
-//    public Optional<Survey> findById(Long id) {
-//        return surveyRepository.findById(id);
-//    }
     public Survey findQuestionById(Long id) {
         //surveyRepository.findById(survey_id);
         Optional<Survey> findSurvey = surveyRepository.findById(id);
         if (findSurvey.isPresent()) {
             return findSurvey.get();
         }
-//        subjectiveQuestionRepository.findBySurvey_Id(survey_id).ifPresent(question -> questionResponse.put("subjectiveQuestion", question));
-//        yesOrNoQuestionRepository.findBySurvey_Id(survey_id).ifPresent(question -> questionResponse.put("yesOrNoQuestion", question));
         return null;
+}
+}
 
-}}
