@@ -48,14 +48,14 @@ public class QuestionController {
 //    }
 
     @GetMapping("/api/ques/{survey_id}")
-    public ResponseEntity<?> findQuestionById(@PathVariable("survey_id") Long survey_id) {
+    public Survey findQuestionById(@PathVariable("survey_id") Long survey_id) {
         Survey responseSurvey = questionService.findQuestionById(survey_id);
-
-        if (!responseSurvey.equals(null)) {
-            return new ResponseEntity<>(responseSurvey, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Question not found", HttpStatus.NOT_FOUND);
-        }
+        return responseSurvey;
+//        if (!responseSurvey.equals(null)) {
+//            return new ResponseEntity<>(responseSurvey, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("Question not found", HttpStatus.NOT_FOUND);
+//        }
     }
 
 //    @ExceptionHandler(IllegalStateException.class)
