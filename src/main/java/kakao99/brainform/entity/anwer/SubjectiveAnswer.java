@@ -21,6 +21,7 @@ public class SubjectiveAnswer {
     @Column(name = "answer_id")
     private Long id;
 
+
     private String answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,4 +31,8 @@ public class SubjectiveAnswer {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "surveyee_id")
     private MemberSurvey memberSurvey;
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 }

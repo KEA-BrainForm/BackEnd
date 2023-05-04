@@ -27,7 +27,7 @@ public class QuestionController {
 
     @PostMapping("/api/new-question")
     public ResponseEntity<?> createQuestion(@RequestBody CreateQuestionDto obj) {
-        System.out.println("obj.title = " + obj.getTitle());    // 설문 제목
+        System.out.println("obj.questionNum = " + obj.getTitle());    // 설문 제목
         System.out.println("obj.getQuestionList = " + obj.getQuestionList());   // 객관식 - 보기 리스트
         System.out.println("obj.getVisibility = " + obj.getVisibility());   // 공개 여부
         System.out.println("obj.getWearable = " + obj.getWearable());       // 기기 착용 필수 여부

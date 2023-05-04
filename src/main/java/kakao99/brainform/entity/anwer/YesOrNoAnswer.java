@@ -20,6 +20,7 @@ public class YesOrNoAnswer {
     @Column(name = "answer_id")
     private Long id;
 
+
     private Boolean answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,4 +30,8 @@ public class YesOrNoAnswer {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "surveyee_id")
     private MemberSurvey memberSurvey;
+
+    public void setAnswer(Boolean answer) {
+    this.answer= answer;
+    }
 }
