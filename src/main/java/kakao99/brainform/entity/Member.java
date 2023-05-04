@@ -1,5 +1,6 @@
 package kakao99.brainform.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import kakao99.brainform.dto.MemberRegisterDTO;
@@ -63,9 +64,11 @@ public class Member {
     private Boolean isActive;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<MemberSurvey> memberSurveys = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Survey> survey;
 
     @ElementCollection(fetch = FetchType.EAGER) //roles 컬렉션
