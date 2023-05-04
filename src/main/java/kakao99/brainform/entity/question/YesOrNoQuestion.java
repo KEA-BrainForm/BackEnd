@@ -1,9 +1,11 @@
 package kakao99.brainform.entity.question;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class YesOrNoQuestion {
     private String question;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "survey_id")
     private Survey survey;
 

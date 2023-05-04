@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -25,7 +24,7 @@ public class SurveyController {
         System.out.println("obj.getQuestionList = " + obj.getQuestionList());   // 객관식 - 보기 리스트
         System.out.println("obj.getVisibility = " + obj.getVisibility());   // 공개 여부
         System.out.println("obj.getWearable = " + obj.getWearable());       // 기기 착용 필수 여부
-
+        System.out.println("obj.getSurveyId = " + obj.getSurveyId());
         List<CreateQuestionInput> questionList = obj.getQuestionList();
 
         Survey newSurvey = surveyService.createSurvey(obj);
@@ -34,10 +33,17 @@ public class SurveyController {
         return new ResponseEntity<>("설문 생성이 완료되었습니다.", HttpStatus.OK);
     }
 
-    @GetMapping("/survey/{surveyId}/surveyee")
-    public ResponseEntity<?> requestSurveyBySurveyee(@PathVariable("surveyId") Long surveyId) {
-        log.info(surveyId+"번 설문지 요청");
+    @GetMapping("/api/ques/{surveyId}")
+    public ResponseEntity<?> findQuestionById(@PathVariable("surveyId") Long surveyId) {
+        Survey responseSurvey = surveyService.findQuestionById(surveyId);
 
-        return new ResponseEntity<>("요청 완료", HttpStatus.OK);
+        if (!responseSurvey.equals(null)) {
+            return new ResponseEntity<>(responseSurvey, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Question not found", HttpStatus.NOT_FOUND);
+        }
     }
 }
+
+
+
