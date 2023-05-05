@@ -2,12 +2,17 @@ package kakao99.brainform.service;
 
 import kakao99.brainform.dto.CreateAnswerInput;
 import kakao99.brainform.dto.CreateQuestionInput;
+import kakao99.brainform.entity.Member;
+import kakao99.brainform.entity.MemberSurvey;
+import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.SubjectiveAnswer;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
 import kakao99.brainform.entity.question.SubjectiveQuestion;
 import kakao99.brainform.entity.question.YesOrNoQuestion;
+import kakao99.brainform.repository.MemberSurveyRepository;
+import kakao99.brainform.repository.SurveyRepository;
 import kakao99.brainform.repository.answer.MultipleChoiceAnswerRepository;
 import kakao99.brainform.repository.answer.SubjectiveAnswerRepository;
 import kakao99.brainform.repository.answer.YesOrNoAnswerRepository;
@@ -30,9 +35,12 @@ public class AnswerService {
     private final SubjectiveQuestionRepository subjectiveQuestionRepository;
     private final YesOrNoAnswerRepository yesOrNoAnswerRepository;
     private final YesOrNoQuestionRepository yesOrNoQuestionRepository;
+    private final MemberSurveyRepository memberSurveyRepository;
+    private final SurveyRepository surveyRepository;
 
-    public void createAns(ArrayList<CreateAnswerInput> questionList) {
+    public void createAns(ArrayList<CreateAnswerInput> questionList, MemberSurvey memberSurvey) {
         int length = questionList.toArray().length;
+
 
         for (int i = 0; i < length; i++) {
             Long questionId = questionList.get(i).getQuestionId();
@@ -43,6 +51,7 @@ public class AnswerService {
 
                 MultipleChoiceQuestion multipleChoiceQuestion = multipleChoiceQuestionRepository.findMultipleChoiceQuestionById(questionId);
                 multipleChoiceAnswer.setMultipleChoiceQuestion(multipleChoiceQuestion);
+                multipleChoiceAnswer.setMemberSurvey(memberSurvey);
                 multipleChoiceAnswerRepository.save(multipleChoiceAnswer);
 
             } else if (questionList.get(i).getType().equalsIgnoreCase("subjectiveQuestions")) {
@@ -50,13 +59,15 @@ public class AnswerService {
                 subjectiveAnswer.setAnswer(questionList.get(i).getAnswer());
                 SubjectiveQuestion subjectiveQuestion = subjectiveQuestionRepository.findSubjectiveQuestionById(questionId);
                 subjectiveAnswer.setSubjectiveQuestion(subjectiveQuestion);
+                subjectiveAnswer.setMemberSurvey(memberSurvey);
                 subjectiveAnswerRepository.save(subjectiveAnswer);
 
-            } else if (questionList.get(i).getType().equalsIgnoreCase("yesOrNoQueQuestions")) {
+            } else if (questionList.get(i).getType().equalsIgnoreCase("yesOrNoQuestions")) {
                 YesOrNoAnswer yesOrNoAnswer = new YesOrNoAnswer();
                 yesOrNoAnswer.setAnswer(Boolean.parseBoolean(questionList.get(i).getAnswer()));
                 YesOrNoQuestion yesOrNoQuestion = yesOrNoQuestionRepository.findYesOrNoQuestionById(questionId);
                 yesOrNoAnswer.setYesOrNoQuestion(yesOrNoQuestion);
+                yesOrNoAnswer.setMemberSurvey(memberSurvey);
                 yesOrNoAnswerRepository.save(yesOrNoAnswer);
 
             }
