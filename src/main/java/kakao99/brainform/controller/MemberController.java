@@ -46,7 +46,7 @@ public class MemberController {
 
         TokenDTO token = memberService.join(dto, authentication);
 
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        return new ResponseEntity<>(token.getAccessToken(), HttpStatus.OK);
     }
 
 

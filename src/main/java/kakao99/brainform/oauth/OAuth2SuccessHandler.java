@@ -81,7 +81,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             String refreshToken = tokenProvider.createRefreshToken(findMemberByEmail.get());
 
             TokenDTO token = new TokenDTO(accessToken, refreshToken);
-            response.sendRedirect("http://localhost:3000/social-login?token=" + token);
+            response.sendRedirect("http://localhost:3000/social-login?token=" + token.getAccessToken());
         }
 
 

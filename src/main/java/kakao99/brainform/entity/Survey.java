@@ -24,8 +24,7 @@ import java.util.List;
 @Table(name = "survey")
 public class Survey {
     @Id
-
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "survey_id")
     private Long id;
 
@@ -50,7 +49,7 @@ public class Survey {
     @UpdateTimestamp
     private Date updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "surveyor_id")
     private Member member;
 

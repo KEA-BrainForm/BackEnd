@@ -2,6 +2,7 @@ package kakao99.brainform.service;
 
 import kakao99.brainform.dto.CreateQuestionDto;
 import kakao99.brainform.dto.CreateQuestionInput;
+import kakao99.brainform.entity.Member;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
 import kakao99.brainform.entity.question.SubjectiveQuestion;
@@ -25,12 +26,14 @@ public class QuestionService {
     private final SubjectiveQuestionRepository subjectiveQuestionRepository;
     private final SurveyRepository surveyRepository;
 
-    public Survey createSurvey(CreateQuestionDto obj) {
+    public Survey createSurvey(CreateQuestionDto obj, Member member) {
         Survey survey = new Survey();
         survey.setId(obj.getSurveyId());
         survey.setIsOpen(obj.getVisibility());
         survey.setIsBrainwave(obj.getWearable());
         survey.setTitle(obj.getTitle());
+        survey.setMember(member);
+
         return surveyRepository.save(survey);
     }
     public void createQuestion(Survey survey, List<CreateQuestionInput> questionList) {
