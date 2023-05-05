@@ -17,7 +17,7 @@ import java.util.List;
 public class CreateAnswerDto {
 
     @JsonProperty("surveyId")
-    private int surveyId;
+    private Long surveyId;
     @JsonProperty("answers")
     private ArrayList<CreateAnswerInput> answers;
 

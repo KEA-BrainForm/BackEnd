@@ -5,11 +5,14 @@ import kakao99.brainform.dto.CreateAnswerDto;
 import kakao99.brainform.dto.CreateAnswerInput;
 import kakao99.brainform.dto.CreateQuestionInput;
 import kakao99.brainform.entity.Member;
+import kakao99.brainform.entity.MemberSurvey;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
 import kakao99.brainform.entity.question.SubjectiveQuestion;
 import kakao99.brainform.entity.question.YesOrNoQuestion;
+import kakao99.brainform.repository.SurveyRepository;
 import kakao99.brainform.service.AnswerService;
+import kakao99.brainform.service.MemberSurveyService;
 import kakao99.brainform.service.QuestionService;
 import kakao99.brainform.repository.question.MultipleChoiceQuestionRepository;
 
@@ -30,21 +33,22 @@ import java.util.Optional;
 public class AnswerController {
 
     private final AnswerService answerService; // Add this line
+    private final MemberSurveyService memberSurveyService;
 
     @PostMapping("/api/answer")
     public ResponseEntity<?> createAns(@RequestBody CreateAnswerDto obj, Authentication authentication) {
 
 
-//        Member member = (Member) authentication.getPrincipal();
-//        Long Id = member.getId();
-
-
-        System.out.println("obj.surveyId = " + obj.getSurveyId());    // 설문 제목
+        System.out.println("obj.surveyId = " + obj.getSurveyId());    // 설문 id
         System.out.println("obj.answer = " + obj.getAnswers());   // 객관식 - 보기 리스트
-        // System.out.println("obj.type = " + obj.getType());   // 공개 여부
+
         ArrayList questionList = obj.getAnswers();
-//        //int SurveyId = obj.getSurveyId();
-        answerService.createAns(questionList); // Change this line
+        Long surveyId = obj.getSurveyId();
+        Member member = (Member) authentication.getPrincipal();
+
+        MemberSurvey memberSurvey = memberSurveyService.createMemberSurvey(member, surveyId);
+        answerService.createAns(questionList, memberSurvey); // Change this line
+
         return new ResponseEntity<>("설문 응답이 제출되었습니다.", HttpStatus.OK);
 
     }

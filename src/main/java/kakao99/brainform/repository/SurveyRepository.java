@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
     Survey save(Survey survey);
     Optional<Survey> findById(Long id);
+
+    Survey findSurveyById(Long id);
 }

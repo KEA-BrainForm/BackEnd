@@ -1,10 +1,8 @@
 package kakao99.brainform.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jdk.jfr.StackTrace;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,7 +20,7 @@ import java.util.List;
 public class MemberSurvey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "participate_id")
+    @Column(name = "member_survey_id")
     private Long id;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -34,11 +33,11 @@ public class MemberSurvey {
     @UpdateTimestamp
     private Date updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
