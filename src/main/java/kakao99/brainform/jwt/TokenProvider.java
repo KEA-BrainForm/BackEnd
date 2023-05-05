@@ -80,7 +80,7 @@ public class TokenProvider implements InitializingBean {
 
         RefreshToken refreshToken = new RefreshToken(member.getId(), token);
 
-        refreshTokenRepository.save(refreshToken);
+        //refreshTokenRepository.save(refreshToken);
 
         return token;
     }
