@@ -1,5 +1,6 @@
 package kakao99.brainform.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -10,6 +11,7 @@ import kakao99.brainform.dto.MemberRegisterDTO;
 import kakao99.brainform.entity.BrainMemberInfo;
 import kakao99.brainform.entity.Member;
 import kakao99.brainform.entity.Survey;
+import kakao99.brainform.repository.BrainWaveCodeRepository;
 import kakao99.brainform.repository.SurveyRepository;
 import kakao99.brainform.service.MemberService;
 import lombok.Getter;
@@ -30,7 +32,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
-
+    private final BrainWaveCodeRepository brainWaveCodeRepository;
 
     private final ObjectMapper objectMapper;
 
@@ -55,15 +57,13 @@ public class MemberController {
     * */
     @PostMapping("/{id}/{code}")
     public ResponseEntity<?> getBrainCode(@PathVariable(name = "code") String code,
-                               @RequestParam(name = "id") Long surveyId,
+                               @PathVariable(name = "id") Long surveyId,
                                Authentication authentication,
                                HttpServletRequest request) {
 
         //JWT 토큰에서 저장되어있는 유저 정보 가져오기
         Member member = (Member) authentication.getPrincipal();
 
-
-        HttpSession session = request.getSession();
 
         BrainMemberInfo brainMemberInfo = BrainMemberInfo.builder()
                 .code(code)
@@ -72,17 +72,19 @@ public class MemberController {
                 .flag(true)
                 .build();
 
-        session.setAttribute(code, brainMemberInfo);
+        brainWaveCodeRepository.save(brainMemberInfo);
 
         return new ResponseEntity<>("설문을 시작해주세요", HttpStatus.OK);
     }
 
     @GetMapping("/userInfo/{code}")
     public BrainMemberInfo sendMemberInfo(@PathVariable(name = "code") String code,
-                                          HttpServletRequest request) {
+                                          HttpServletRequest request) throws JsonProcessingException {
 
-        HttpSession session = request.getSession();
-        BrainMemberInfo brainMemberInfo = (BrainMemberInfo) session.getAttribute(code);
+        log.info(code);
+        BrainMemberInfo brainMemberInfo = brainWaveCodeRepository.findByCode(code);
+        String s = objectMapper.writeValueAsString(brainMemberInfo);
+        log.info(s);
 
         return brainMemberInfo;
     }
