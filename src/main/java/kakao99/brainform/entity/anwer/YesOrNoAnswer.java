@@ -29,7 +29,7 @@ public class YesOrNoAnswer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
-    @JoinColumn(name = "surveyee_id")
+    @JoinColumn(name = "member_survey_id")
     private MemberSurvey memberSurvey;
 
     public void setAnswer(Boolean answer) {
