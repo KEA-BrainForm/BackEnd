@@ -1,6 +1,7 @@
 package kakao99.brainform.entity.question;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
@@ -10,7 +11,8 @@ import net.minidev.json.annotate.JsonIgnore;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -30,6 +32,7 @@ public class YesOrNoQuestion {
     private Survey survey;
 
     @OneToMany(mappedBy = "yesOrNoQuestion", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<YesOrNoAnswer> yesOrNoAnswer;
 
     public void setQuestion(String title) {

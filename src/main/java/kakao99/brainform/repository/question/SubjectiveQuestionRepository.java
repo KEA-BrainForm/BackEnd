@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface SubjectiveQuestionRepository extends JpaRepository<SubjectiveQuestion, Long> {
     SubjectiveQuestion save(SubjectiveQuestion subjectiveQuestion);
     Optional<SubjectiveQuestion> findBySurvey(Long id);
+
+    SubjectiveQuestion findSubjectiveQuestionById(Long id);
 }
