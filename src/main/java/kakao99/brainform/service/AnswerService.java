@@ -62,7 +62,7 @@ public class AnswerService {
                 subjectiveAnswer.setMemberSurvey(memberSurvey);
                 subjectiveAnswerRepository.save(subjectiveAnswer);
 
-            } else if (questionList.get(i).getType().equalsIgnoreCase("yesOrNoQueQuestions")) {
+            } else if (questionList.get(i).getType().equalsIgnoreCase("yesOrNoQuestions")) {
                 YesOrNoAnswer yesOrNoAnswer = new YesOrNoAnswer();
                 yesOrNoAnswer.setAnswer(Boolean.parseBoolean(questionList.get(i).getAnswer()));
                 YesOrNoQuestion yesOrNoQuestion = yesOrNoQuestionRepository.findYesOrNoQuestionById(questionId);

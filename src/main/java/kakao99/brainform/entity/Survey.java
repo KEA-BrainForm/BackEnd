@@ -55,7 +55,7 @@ public class Survey {
 
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<YesOrNoQuestion> yesOrNoQueQuestions;
+    private List<YesOrNoQuestion> yesOrNoQuestions;
 
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
     @JsonManagedReference
