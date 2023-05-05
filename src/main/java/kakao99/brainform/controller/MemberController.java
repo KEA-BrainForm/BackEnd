@@ -50,12 +50,19 @@ public class MemberController {
     }
 
 
+    /*
+    * 설문 응답하기 전에 입력할 코드 세션에 저장
+    * */
     @PostMapping("/{id}/{code}")
     public ResponseEntity<?> getBrainCode(@PathVariable(name = "code") String code,
                                @RequestParam(name = "id") Long surveyId,
                                Authentication authentication,
                                HttpServletRequest request) {
+
+        //JWT 토큰에서 저장되어있는 유저 정보 가져오기
         Member member = (Member) authentication.getPrincipal();
+
+
         HttpSession session = request.getSession();
 
         BrainMemberInfo brainMemberInfo = BrainMemberInfo.builder()
