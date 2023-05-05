@@ -14,7 +14,8 @@ public interface MultipleChoiceQuestionRepository extends JpaRepository<Multiple
     MultipleChoiceQuestion save(MultipleChoiceQuestion multipleChoiceQuestion);
     Optional<MultipleChoiceQuestion> findBySurveyId(Long id);
 
-//    Iterable<YesOrNoQuestion> saveAll(Iterable<YesOrNoQuestion> yesOrNoQuestions);
+    MultipleChoiceQuestion findMultipleChoiceQuestionById(Long id);
+    //    Iterable<YesOrNoQuestion> saveAll(Iterable<YesOrNoQuestion> yesOrNoQuestions);
 
 
 //    void save(QuestionInterface questionInterface);

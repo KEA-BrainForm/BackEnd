@@ -11,6 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateAnswerInput {
+
+    private Long questionId;
+
     @JsonProperty("questionNum")
     private int questionNum;
 
