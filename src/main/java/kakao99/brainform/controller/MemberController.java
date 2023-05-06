@@ -64,11 +64,10 @@ public class MemberController {
     /*
     * 설문 응답하기 전에 입력할 코드 세션에 저장
     * */
-    @PostMapping("/{id}/{code}")
+    @PostMapping("/api/{id}/{code}")
     public ResponseEntity<?> getBrainCode(@PathVariable(name = "code") String code,
                                @PathVariable(name = "id") Long surveyId,
-                               Authentication authentication,
-                               HttpServletRequest request) {
+                               Authentication authentication) {
 
         //JWT 토큰에서 저장되어있는 유저 정보 가져오기
         Member member = (Member) authentication.getPrincipal();
@@ -86,7 +85,7 @@ public class MemberController {
         return new ResponseEntity<>("설문을 시작해주세요", HttpStatus.OK);
     }
 
-    @GetMapping("/userInfo/{code}")
+    @GetMapping("/api/userInfo/{code}")
     public BrainMemberInfo sendMemberInfo(@PathVariable(name = "code") String code,
                                           HttpServletRequest request) throws JsonProcessingException {
 
@@ -98,7 +97,7 @@ public class MemberController {
         return brainMemberInfo;
     }
 
-    @PostMapping("/{id}/{code}/stop")
+    @PostMapping("api/{id}/{code}/stop")
     public ResponseEntity<?> stopBrain(@PathVariable(name = "code") String code,
                                        @PathVariable(name = "id") Long surveyId,
                                        Authentication authentication,
@@ -120,7 +119,7 @@ public class MemberController {
         return new ResponseEntity<>("설문 종료", HttpStatus.OK);
     }
 
-    @PostMapping("/imgInfo")
+    @PostMapping("api/imgInfo")
     public BrainData postBrainData(@RequestParam("braindata") String brainData,
                                    @RequestParam("image") MultipartFile image) throws IOException {
         // byte 배열로 이미지 데이터 변환
