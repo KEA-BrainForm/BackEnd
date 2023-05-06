@@ -38,7 +38,6 @@ public class AnswerController {
     @PostMapping("/api/answer")
     public ResponseEntity<?> createAns(@RequestBody CreateAnswerDto obj, Authentication authentication) {
 
-
         System.out.println("obj.surveyId = " + obj.getSurveyId());    // 설문 id
         System.out.println("obj.answer = " + obj.getAnswers());   // 객관식 - 보기 리스트
 
