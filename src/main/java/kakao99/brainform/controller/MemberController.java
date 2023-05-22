@@ -53,9 +53,9 @@ public class MemberController {
     /*
     * 설문 응답하기 전에 입력할 코드 세션에 저장
     * */
-    @PostMapping("/{id}/{code}")
+    @PostMapping("/api/{id}/{code}")
     public ResponseEntity<?> getBrainCode(@PathVariable(name = "code") String code,
-                               @RequestParam(name = "id") Long surveyId,
+                               @PathVariable(name = "id") Long surveyId,
                                Authentication authentication,
                                HttpServletRequest request) {
 

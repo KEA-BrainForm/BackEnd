@@ -83,5 +83,30 @@ public class QuestionService {
         }
         return null;
 }
+
+    public List<Survey> findAllSurveyIMade(Member member) {
+        List<Survey> allSurveyByMember = surveyRepository.findAllByMember(member);
+
+        return allSurveyByMember;
+    }
+
+    public Survey getSurveyStatistic(Long surveyId) {
+        Optional<Survey> survey = surveyRepository.findById(surveyId);
+        if (!survey.isPresent()) {
+            // 에러 처리
+        }
+                return survey.get();
+
+//        Survey survey = surveyRepository.findSurveyById(surveyId);
+//        return survey;
+
+    }
+//    public MultipleChoiceQuestion getSurveyStatisticTest(Long surveyId) {
+//
+//        Optional<YesOrNoQuestion> bySurvey = yesOrNoQuestionRepository.findBySurveyId(surveyId);
+//        Optional<MultipleChoiceQuestion> bySurveyId = multipleChoiceQuestionRepository.findBySurveyId(surveyId);
+//        return bySurveyId.get();
+//
+//    }
 }
 

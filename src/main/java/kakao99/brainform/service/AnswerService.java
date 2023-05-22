@@ -2,6 +2,7 @@ package kakao99.brainform.service;
 
 import kakao99.brainform.dto.CreateAnswerInput;
 import kakao99.brainform.dto.CreateQuestionInput;
+import kakao99.brainform.dto.FilterDTO;
 import kakao99.brainform.entity.Member;
 import kakao99.brainform.entity.MemberSurvey;
 import kakao99.brainform.entity.Survey;
@@ -71,4 +72,8 @@ public class AnswerService {
                 yesOrNoAnswerRepository.save(yesOrNoAnswer);
 
             }
-        }}}
+        }
+
+    }
+
+}
