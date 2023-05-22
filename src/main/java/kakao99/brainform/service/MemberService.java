@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,5 +37,22 @@ public class MemberService {
         return new TokenDTO(accessToken, refreshToken);
     }
 
+    public Member update(MemberRegisterDTO dto, Authentication authentication) {
 
+        // Authentication 객체에서 사용자 이름 가져오기
+        Member member = (Member) authentication.getPrincipal();
+
+        // 사용자 이름으로 회원 정보 조회
+        Member memberbyid = memberRepository.findById(member.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+        // DTO로부터 변경할 정보를 가져와 회원 정보 업데이트
+        memberbyid.setNickname(dto.getNickname());
+        memberbyid.setAge(dto.getAge());
+        memberbyid.setGender(dto.getGender());
+        memberbyid.setJob(dto.getJob());
+
+        // 변경된 회원 정보 저장
+        return memberRepository.save(memberbyid);
+    }
 }

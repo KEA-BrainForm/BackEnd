@@ -91,6 +91,21 @@ public class Member {
 
         return this;
     }
+
+    public void setNickname(String nickname) {
+        this.nickname=nickname;
+
+    }
+    public void setGender(String gender) {
+        this.gender=gender;
+    }
+    public void setAge(String age) {
+        this.age=age;
+    }
+
+    public void setJob(String job) {
+        this.job=job;
+    }
 }
 
 
