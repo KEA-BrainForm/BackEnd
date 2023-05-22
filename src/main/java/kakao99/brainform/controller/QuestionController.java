@@ -27,6 +27,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
+    // 설문 생성 컨트롤러
     @PostMapping("/api/new-question")
     public ResponseEntity<?> createQuestion(@RequestBody CreateQuestionDto obj, Authentication authentication) {
         System.out.println("obj.questionNum = " + obj.getTitle());    // 설문 제목
@@ -46,13 +47,7 @@ public class QuestionController {
         return new ResponseEntity<>(newSurvey.getId(), HttpStatus.OK);
     }
 
-//    @GetMapping("/api/ques/{id}")
-//    public ResponseEntity<Survey> findById(@PathVariable("id") Long id) {
-//        return questionService.findById(id)
-//                .map(survey -> ResponseEntity.ok(survey))
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-
+    // survey_id에 해당하는 설문지의 질문들 가져오는 컨트롤러
     @GetMapping("/api/ques/{survey_id}")
     public Survey findQuestionById(@PathVariable("survey_id") Long survey_id) {
         Survey responseSurvey = questionService.findQuestionById(survey_id);
@@ -63,22 +58,6 @@ public class QuestionController {
 //            return new ResponseEntity<>("Question not found", HttpStatus.NOT_FOUND);
 //        }
     }
-
-//    @ExceptionHandler(IllegalStateException.class)
-//    public ResponseEntity<String> handleIllegalStateException(IllegalStateException ex) {
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + ex.getMessage());
-//    }
-//
-//    @ExceptionHandler(RuntimeException.class)
-//    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + ex.getMessage());
-//    }
-//
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<String> handleException(Exception ex) {
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + ex.getMessage());
-//    }
-
 
 
 

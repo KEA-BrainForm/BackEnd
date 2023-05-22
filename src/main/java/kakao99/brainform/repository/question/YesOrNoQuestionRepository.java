@@ -13,7 +13,9 @@ public interface YesOrNoQuestionRepository extends JpaRepository<YesOrNoQuestion
 
     YesOrNoQuestion save(YesOrNoQuestion yesOrNoQuestion);
 
-    Optional<YesOrNoQuestion> findBySurvey(Long surveyId);
+    Optional<YesOrNoQuestion> findBySurveyId(Long surveyId);
 
     YesOrNoQuestion findYesOrNoQuestionById(Long id);
+
+    YesOrNoQuestion findAllBySurveyId(Long surveyId);
 }
