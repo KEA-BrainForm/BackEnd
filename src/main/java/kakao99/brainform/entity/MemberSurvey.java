@@ -2,7 +2,11 @@ package kakao99.brainform.entity;
 
 import jakarta.persistence.*;
 import jdk.jfr.StackTrace;
+import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
+import kakao99.brainform.entity.anwer.SubjectiveAnswer;
+import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -43,4 +47,17 @@ public class MemberSurvey {
 
     @OneToOne(mappedBy = "memberSurvey", fetch = FetchType.LAZY)
     private BrainwaveResult brainwaveResult;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.EAGER)
+    private List<MultipleChoiceAnswer> multipleChoiceAnswers = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.EAGER)
+    private List<SubjectiveAnswer> subjectiveAnswers = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.EAGER)
+    private List<YesOrNoAnswer> yesOrNoAnswers = new ArrayList<>();
 }

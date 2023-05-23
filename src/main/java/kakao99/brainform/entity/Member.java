@@ -69,7 +69,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @JsonBackReference
-    private List<Survey> survey;
+    private List<Survey> surveys = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER) //roles 컬렉션
     @Builder.Default
