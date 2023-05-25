@@ -11,5 +11,6 @@ public class CicdController {
     @GetMapping("/cicd/first")
     public String first() {
         return "You've succeeded in deploying.";
+        //
     }
 }
