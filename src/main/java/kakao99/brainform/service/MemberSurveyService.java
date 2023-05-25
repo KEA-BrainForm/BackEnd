@@ -47,21 +47,24 @@ public class MemberSurveyService {
     }
 
     public List<QuestionDTO> getDataWithFilter(FilterDTO filterDTO) {
-        System.out.println("filterDTO = " + filterDTO);
-        System.out.println("filterDTO.getAges() = " + filterDTO.getAges());
-        System.out.println("filterDTO.getOccupations() = " + filterDTO.getOccupations());
-        System.out.println("filterDTO.getGenders() = " + filterDTO.getGenders());
-        System.out.println("filterDTO.getSurveyId() = " + filterDTO.getSurveyId());
-        System.out.println("filterDTO.getOccupations().toString().get(0): "+ filterDTO.getOccupations().get(0));
-        System.out.println("filterDTO.getOccupations().toString().get(0): "+ filterDTO.getOccupations().get(0).getClass().getName());
+//        System.out.println("filterDTO = " + filterDTO);
+//        System.out.println("filterDTO.getAges() = " + filterDTO.getAges());
+//        System.out.println("filterDTO.getOccupations() = " + filterDTO.getOccupations());
+//        System.out.println("filterDTO.getGenders() = " + filterDTO.getGenders());
+//        System.out.println("filterDTO.getSurveyId() = " + filterDTO.getSurveyId());
+//        System.out.println("filterDTO.getOccupations().toString().get(0): "+ filterDTO.getOccupations().get(0));  // 직업 1개
+//        System.out.println("filterDTO.getOccupations().toString().get(0): "+ filterDTO.getOccupations().get(0).getClass().getName());
 
         Long surveyId = Long.valueOf(filterDTO.getSurveyId());
+
+        // 직업 1개에 해당하는 member가 응답한 설문List
+        List<MemberSurvey> memberSurveys = memberSurveyRepository.findMemberSurveyByMemberJobAndSurveyId(filterDTO.getOccupations().get(0), surveyId);
 
         Survey surveyById = surveyRepository.findSurveyById(surveyId);
         List<MultipleChoiceQuestion> multipleChoiceQuestions = surveyById.getMultipleChoiceQuestions();
 
         // 직업 1개 처리 코드
-        List<MemberSurvey> memberSurveys = memberSurveyRepository.findMemberSurveyByMemberJobAndSurveyId(filterDTO.getOccupations().get(0), surveyId);
+
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (MemberSurvey memberSurvey : memberSurveys) {

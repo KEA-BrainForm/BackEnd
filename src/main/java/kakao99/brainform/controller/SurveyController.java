@@ -51,6 +51,10 @@ public class SurveyController {
         System.out.println("filter요청 들어옴");
 
 //        return memberSurveyService.getDataWithFilter(filterDTO);
+        /*
+
+
+         */
         return memberSurveyService.getDataWithFilter(filterDTO);
 //        return answerList;
 }
