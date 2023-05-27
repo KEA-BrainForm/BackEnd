@@ -67,6 +67,9 @@ dependencies {
 	implementation group: 'ch.qos.logback.contrib', name: 'logback-jackson', version: '0.1.5'
 	implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.4.7'
 	implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.3'
+
+	//WebSocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 tasks.named('test') {
