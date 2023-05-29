@@ -36,6 +36,8 @@ public class MultipleChoiceAnswer {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
+
 }
 
 

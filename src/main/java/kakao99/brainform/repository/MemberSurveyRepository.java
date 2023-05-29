@@ -1,16 +1,76 @@
 package kakao99.brainform.repository;
 
-import kakao99.brainform.dto.RefreshToken;
-import kakao99.brainform.entity.MemberSurvey;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import kakao99.brainform.dto.FilterDTO;
+import kakao99.brainform.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface MemberSurveyRepository  extends JpaRepository<MemberSurvey, Long> {
-    MemberSurvey findMemberSurveyByMemberId(Long memberId);
+@Repository
+@Transactional
+public class MemberSurveyRepository  {
+    private final EntityManager em;
+    private final JPAQueryFactory query;
 
-//    @Query("SELECT s FROM MemberSurvey s JOIN s.member m WHERE m.job = :job")
-    List<MemberSurvey> findMemberSurveyByMemberJobAndSurveyId(String job, Long surveyId);
+    private QMemberSurvey memberSurvey = QMemberSurvey.memberSurvey;
+    private QSurvey survey = QSurvey.survey;
+
+
+    public MemberSurveyRepository(EntityManager em) {
+        this.em = em;
+        this.query = new JPAQueryFactory(em);
+    }
+
+    public MemberSurvey getMemberSurveyFilter(FilterDTO filterDTO) {
+
+        BooleanExpression surveyExpression = surveyEq(filterDTO.getSurveyId());
+        BooleanExpression genderExpression = genderEq(filterDTO.getGenders());
+        BooleanExpression ageExpression = ageEq(filterDTO.getAges());
+        BooleanExpression jobExpression = jobEq(filterDTO.getOccupations());
+
+        return query
+                .select(memberSurvey)
+                .from(memberSurvey)
+                .where(surveyExpression,genderExpression, ageExpression, jobExpression)
+                .fetchOne();
+    }
+
+    public MemberSurvey save(MemberSurvey memberSurvey) {
+        em.persist(memberSurvey);
+        return memberSurvey;
+    }
+
+
+    private BooleanExpression surveyEq(Long surveyId) {
+        if (surveyId == null) {
+            return null;
+        }
+        return memberSurvey.survey.id.eq(surveyId);
+    }
+    private BooleanExpression genderEq(List<String> genders) {
+        if (genders == null || genders.isEmpty()) {
+            return null;
+        }
+        return memberSurvey.member.gender.in(genders);
+    }
+
+    private BooleanExpression ageEq(List<String> ages) {
+        if (ages == null || ages.isEmpty()) {
+            return null;
+        }
+        return memberSurvey.member.age.in(ages);
+    }
+
+    private BooleanExpression jobEq(List<String> jobs) {
+        if (jobs == null || jobs.isEmpty()) {
+            return null;
+        }
+        return memberSurvey.member.job.in(jobs);
+    }
+
 }

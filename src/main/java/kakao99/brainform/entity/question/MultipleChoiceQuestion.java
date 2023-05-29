@@ -40,7 +40,7 @@ public class MultipleChoiceQuestion {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @OneToMany(mappedBy = "multipleChoiceQuestion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "multipleChoiceQuestion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<MultipleChoiceAnswer> multipleChoiceAnswers;
 
@@ -50,5 +50,21 @@ public class MultipleChoiceQuestion {
         this.choice3 = o2;
         this.choice4 = o3;
         this.choice5 = o4;
+    }
+
+    public MultipleChoiceQuestion filterAnswer(List<MultipleChoiceAnswer> answers) {
+        MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestion.builder()
+                .id(this.id)
+                .num(this.num)
+                .question(this.question)
+                .count(this.count)
+                .choice1(this.choice1)
+                .choice2(this.choice2)
+                .choice3(this.choice3)
+                .choice4(this.choice4)
+                .choice5(this.choice5)
+                .survey(this.survey)
+                .multipleChoiceAnswers(answers).build();
+        return multipleChoiceQuestion;
     }
 }

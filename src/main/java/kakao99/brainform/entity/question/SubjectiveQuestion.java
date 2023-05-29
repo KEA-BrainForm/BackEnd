@@ -39,4 +39,8 @@ public class SubjectiveQuestion {
     public void setQuestion(String title) {
         this.question = title;
     }
+
+    public void filterAnswer(List<SubjectiveAnswer> subjectiveAnswers) {
+        this.subjectiveAnswers = subjectiveAnswers;
+    }
 }
