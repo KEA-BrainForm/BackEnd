@@ -5,6 +5,7 @@ import kakao99.brainform.dto.ChatMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
@@ -28,14 +29,10 @@ public class WebSocketEventListener {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
         String username = (String) headerAccessor.getSessionAttributes().get("username");
+
         if (username != null) {
             log.info("User Disconnected: " + username);
 
-            ChatMessageDto chatMessage = new ChatMessageDto();
-            chatMessage.setType(ChatMessageDto.MessageType.LEAVE);
-            chatMessage.setSender(username);
-
-            messagingTemplate.convertAndSend("/topic/public", chatMessage);
         }
     }
 }
