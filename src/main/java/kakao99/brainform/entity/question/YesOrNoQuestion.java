@@ -38,4 +38,8 @@ public class YesOrNoQuestion {
     public void setQuestion(String title) {
         this.question = title;
     }
+
+    public void filterAnswer(List<YesOrNoAnswer> yesOrNoAnswers) {
+        this.yesOrNoAnswer = yesOrNoAnswers;
+    }
 }

@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import kakao99.brainform.dto.SurveyFilterResultDTO;
+import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
+import kakao99.brainform.entity.anwer.SubjectiveAnswer;
+import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
 import kakao99.brainform.entity.question.SubjectiveQuestion;
 import kakao99.brainform.entity.question.YesOrNoQuestion;
@@ -14,6 +18,8 @@ import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitializat
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Getter
@@ -64,4 +70,27 @@ public class Survey {
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<SubjectiveQuestion> subjectiveQuestions;
+
+    public Survey filterQuestions(MemberSurvey memberSurvey) {
+
+        this.multipleChoiceQuestions = this.multipleChoiceQuestions.stream().map(
+                question -> {
+                    MultipleChoiceQuestion filteredQuestion = question.filterAnswer(memberSurvey.getMultipleChoiceAnswers());
+                    return filteredQuestion;
+                }).collect(Collectors.toList());
+        this.yesOrNoQuestions = this.yesOrNoQuestions.stream().map(
+                question -> {
+                    question.filterAnswer(memberSurvey.getYesOrNoAnswers());
+                    return question;
+                }).collect(Collectors.toList());
+
+        this.subjectiveQuestions = this.subjectiveQuestions.stream().map(
+                question -> {
+                    question.filterAnswer(memberSurvey.getSubjectiveAnswers());
+                    return question;
+                }).collect(Collectors.toList());
+
+        return this;
+    }
+
 }

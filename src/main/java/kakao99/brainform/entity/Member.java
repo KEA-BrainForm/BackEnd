@@ -1,6 +1,8 @@
 package kakao99.brainform.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import kakao99.brainform.dto.MemberRegisterDTO;
@@ -71,7 +73,8 @@ public class Member {
     @JsonBackReference
     private List<Survey> surveys = new ArrayList<>();
 
-    @ElementCollection(fetch = FetchType.EAGER) //roles 컬렉션
+    @ElementCollection(fetch = FetchType.LAZY) //roles 컬렉션
+    @JsonIgnore
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
