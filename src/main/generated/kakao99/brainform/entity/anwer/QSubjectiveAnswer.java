@@ -28,6 +28,8 @@ public class QSubjectiveAnswer extends EntityPathBase<SubjectiveAnswer> {
 
     public final kakao99.brainform.entity.QMemberSurvey memberSurvey;
 
+    public final NumberPath<Integer> num = createNumber("num", Integer.class);
+
     public final kakao99.brainform.entity.question.QSubjectiveQuestion subjectiveQuestion;
 
     public QSubjectiveAnswer(String variable) {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import kakao99.brainform.entity.Survey;
+import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
@@ -39,7 +40,14 @@ public class YesOrNoQuestion {
         this.question = title;
     }
 
-    public void filterAnswer(List<YesOrNoAnswer> yesOrNoAnswers) {
-        this.yesOrNoAnswer = yesOrNoAnswers;
+    public YesOrNoQuestion filterAnswer(List<YesOrNoAnswer> answers) {
+        YesOrNoQuestion yesOrNoQuestion = YesOrNoQuestion.builder()
+                .id(this.id)
+                .num(this.num)
+                .question(this.question)
+                .yesOrNoAnswer(answers)
+                .build();
+
+        return yesOrNoQuestion;
     }
 }

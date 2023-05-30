@@ -59,11 +59,21 @@ public class MemberSurveyService {
         Survey surveyById = surveyRepository.findSurveyById(filterDTO.getSurveyId());
 
         log.info("필터링 진행");
-        MemberSurvey memberSurveyFilter = memberSurveyRepository.getMemberSurveyFilter(filterDTO);
+        List<MemberSurvey> memberSurveyFilter = memberSurveyRepository.getMemberSurveyFilter(filterDTO);
+        log.info("필터링 길이={}",memberSurveyFilter.get(0).getMember().getUsername());
 
+        AnswerDTO answerDTO = new AnswerDTO();
+        for (MemberSurvey memberSurvey : memberSurveyFilter) {
+
+            log.info("응답 내용={}",memberSurvey.getMultipleChoiceAnswers().size());
+            answerDTO.updateAnswer(memberSurvey);
+        }
+
+        String answerDTOtoString = mapper.writeValueAsString(answerDTO);
+        log.info("응답 내용 통합={}", answerDTOtoString);
 
         log.info("필터링 완료");
-        Survey survey = surveyById.filterQuestions(memberSurveyFilter);
+        Survey survey = surveyById.filterQuestions(answerDTO);
 
         log.info("필터링 된 dto={}", mapper.writeValueAsString(survey));
 

@@ -47,30 +47,48 @@ public class AnswerService {
             Long questionId = questionList.get(i).getQuestionId();
             if (questionList.get(i).getType().equalsIgnoreCase("multipleChoiceQuestions")) {
 
-                MultipleChoiceAnswer multipleChoiceAnswer = new MultipleChoiceAnswer();
-                multipleChoiceAnswer.setAnswer(questionList.get(i).getAnswer());
+//                MultipleChoiceAnswer multipleChoiceAnswer = new MultipleChoiceAnswer();
+//                multipleChoiceAnswer.setAnswer(questionList.get(i).getAnswer());
 
                 MultipleChoiceQuestion multipleChoiceQuestion = multipleChoiceQuestionRepository.findMultipleChoiceQuestionById(questionId);
-                multipleChoiceAnswer.setMultipleChoiceQuestion(multipleChoiceQuestion);
-                multipleChoiceAnswer.setMemberSurvey(memberSurvey);
+                MultipleChoiceAnswer multipleChoiceAnswer = MultipleChoiceAnswer.builder()
+                        .num(multipleChoiceQuestion.getNum())
+                        .answer(questionList.get(i).getAnswer())
+                        .multipleChoiceQuestion(multipleChoiceQuestion)
+                        .memberSurvey(memberSurvey)
+                        .build();
+//                multipleChoiceAnswer.setMultipleChoiceQuestion(multipleChoiceQuestion);
+//                multipleChoiceAnswer.setMemberSurvey(memberSurvey);
                 multipleChoiceAnswerRepository.save(multipleChoiceAnswer);
 
             } else if (questionList.get(i).getType().equalsIgnoreCase("subjectiveQuestions")) {
-                SubjectiveAnswer subjectiveAnswer = new SubjectiveAnswer();
-                subjectiveAnswer.setAnswer(questionList.get(i).getAnswer());
+//                SubjectiveAnswer subjectiveAnswer = new SubjectiveAnswer();
+//                subjectiveAnswer.setAnswer(questionList.get(i).getAnswer());
                 SubjectiveQuestion subjectiveQuestion = subjectiveQuestionRepository.findSubjectiveQuestionById(questionId);
-                subjectiveAnswer.setSubjectiveQuestion(subjectiveQuestion);
-                subjectiveAnswer.setMemberSurvey(memberSurvey);
+                SubjectiveAnswer subjectiveAnswer = SubjectiveAnswer.builder()
+                        .num(subjectiveQuestion.getNum())
+                        .answer(questionList.get(i).getAnswer())
+                        .subjectiveQuestion(subjectiveQuestion)
+                        .memberSurvey(memberSurvey)
+                        .build();
+//                subjectiveAnswer.setSubjectiveQuestion(subjectiveQuestion);
+//                subjectiveAnswer.setMemberSurvey(memberSurvey);
                 subjectiveAnswerRepository.save(subjectiveAnswer);
 
             } else if (questionList.get(i).getType().equalsIgnoreCase("yesOrNoQuestions")) {
-                YesOrNoAnswer yesOrNoAnswer = new YesOrNoAnswer();
-                yesOrNoAnswer.setAnswer(Boolean.parseBoolean(questionList.get(i).getAnswer()));
+//                YesOrNoAnswer yesOrNoAnswer = new YesOrNoAnswer();
+//                yesOrNoAnswer.setAnswer(Boolean.parseBoolean(questionList.get(i).getAnswer()));
                 YesOrNoQuestion yesOrNoQuestion = yesOrNoQuestionRepository.findYesOrNoQuestionById(questionId);
-                yesOrNoAnswer.setYesOrNoQuestion(yesOrNoQuestion);
-                yesOrNoAnswer.setMemberSurvey(memberSurvey);
-                yesOrNoAnswerRepository.save(yesOrNoAnswer);
+//                yesOrNoAnswer.setYesOrNoQuestion(yesOrNoQuestion);
+//                yesOrNoAnswer.setMemberSurvey(memberSurvey);
 
+                YesOrNoAnswer yesOrNoAnswer = YesOrNoAnswer.builder()
+                        .num(yesOrNoQuestion.getNum())
+                        .answer(Boolean.parseBoolean(questionList.get(i).getAnswer()))
+                        .yesOrNoQuestion(yesOrNoQuestion)
+                        .memberSurvey(memberSurvey)
+                        .build();
+                yesOrNoAnswerRepository.save(yesOrNoAnswer);
             }
         }
 

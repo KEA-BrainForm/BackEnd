@@ -26,7 +26,7 @@ public class MemberSurveyRepository  {
         this.query = new JPAQueryFactory(em);
     }
 
-    public MemberSurvey getMemberSurveyFilter(FilterDTO filterDTO) {
+    public List<MemberSurvey> getMemberSurveyFilter(FilterDTO filterDTO) {
 
         BooleanExpression surveyExpression = surveyEq(filterDTO.getSurveyId());
         BooleanExpression genderExpression = genderEq(filterDTO.getGenders());
@@ -37,7 +37,7 @@ public class MemberSurveyRepository  {
                 .select(memberSurvey)
                 .from(memberSurvey)
                 .where(surveyExpression,genderExpression, ageExpression, jobExpression)
-                .fetchOne();
+                .fetch();
     }
 
     public MemberSurvey save(MemberSurvey memberSurvey) {

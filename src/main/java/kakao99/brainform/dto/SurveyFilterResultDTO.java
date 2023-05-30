@@ -10,30 +10,23 @@ import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
 import kakao99.brainform.entity.question.SubjectiveQuestion;
 import kakao99.brainform.entity.question.YesOrNoQuestion;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class SurveyFilterResultDTO {
 
-    private Long id;
+    List<?> answerList = new ArrayList<>();
 
-    private Member member;
+    //
 
-    private List<YesOrNoAnswer> yesOrNoAnswers;
 
-    private List<MultipleChoiceAnswer> multipleChoiceAnswers;
-
-    private List<SubjectiveAnswer> subjectiveAnswers;
-
-//    public SurveyFilterResultDTO toDTO(MemberSurvey survey) {
-//        this.id = survey.getId();
-//        this.multipleChoiceAnswers = survey.getMultipleChoiceAnswers();
-//        this.subjectiveAnswers = survey.getSubjectiveAnswers();
-//        this.yesOrNoAnswers = survey.getYesOrNoAnswers();
-//        return this;
-//    }
 }

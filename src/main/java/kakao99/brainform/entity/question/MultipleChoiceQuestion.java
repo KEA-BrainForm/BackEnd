@@ -7,8 +7,10 @@ import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.annotate.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "multiplechoice_question")
+@Slf4j
 public class MultipleChoiceQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +56,13 @@ public class MultipleChoiceQuestion {
     }
 
     public MultipleChoiceQuestion filterAnswer(List<MultipleChoiceAnswer> answers) {
+
+        List<MultipleChoiceAnswer> tmp = new ArrayList<>();
+        for (MultipleChoiceAnswer multipleChoiceAnswer : answers) {
+            if (multipleChoiceAnswer.getMultipleChoiceQuestion().getId().equals(this.id)) {
+                tmp.add(multipleChoiceAnswer);
+            }
+        }
         MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestion.builder()
                 .id(this.id)
                 .num(this.num)
@@ -64,7 +74,7 @@ public class MultipleChoiceQuestion {
                 .choice4(this.choice4)
                 .choice5(this.choice5)
                 .survey(this.survey)
-                .multipleChoiceAnswers(answers).build();
+                .multipleChoiceAnswers(tmp).build();
         return multipleChoiceQuestion;
     }
 }
