@@ -181,8 +181,8 @@ public class MemberController {
         // BrainData 객체의 필드 값을 추출하여 변수에 저장
         String memberID = brainDataObj.getMemberId();
         String surveyId = brainDataObj.getSurveyId();
-        Float avgAtt = brainDataObj.getAvgAtt();
-        Float avgMed = brainDataObj.getAvgMed();
+        double avgAtt = brainDataObj.getAvgAtt();
+        double avgMed = brainDataObj.getAvgMed();
 
         // BrainData 객체 생성
         BrainData newBrainDataObj = BrainData.builder()
