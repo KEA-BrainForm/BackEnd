@@ -30,7 +30,7 @@ public class SurveyController {
     private final MemberSurveyService memberSurveyService;
     private final ObjectMapper mapper;
 
-    @GetMapping("/api/data")
+    @GetMapping("/api/data")    //  생성한 설문지 조회
     public List<Survey> surveyManagement(Authentication authentication) {
         Member member = (Member) authentication.getPrincipal();
         List<Survey> allQuestionIMade = questionService.findAllSurveyIMade(member);
@@ -38,9 +38,20 @@ public class SurveyController {
         return allQuestionIMade;
     }
 
+    @GetMapping("/api/data/answered")   // 응답한 설문지 조회
+    public List<Survey> ManagementAnsweredSurveyList(Authentication authentication) {
+        Member member = (Member) authentication.getPrincipal();
+        List<Survey> allSurveyIAnswered = questionService.findAllSurveyIAnswered(member);
+
+        return allSurveyIAnswered;
+    }
+
+
     // surveyId에 해당하는 설문지의 통계 결과 가져오기
     @GetMapping("/api/statistic/surveys/{surveyId}")
+
     public Survey surveyStatistic(@PathVariable("surveyId") Long surveyId) {
+
 //        Member member = (Member) authentication.getPrincipal();
         System.out.println("surveyId = " + surveyId);
         Survey questionOfSurvey = questionService.getSurveyStatistic(surveyId);
@@ -52,7 +63,7 @@ public class SurveyController {
     @GetMapping("/api/statistic/surveys/filter")
     public Survey GetSurveyDataWithFilter(
             @RequestParam(value = "id", required = true) String surveyId,
-            @RequestParam(value = "gender", required = false) List<String> genders ,
+            @RequestParam(value = "gender", required = false) List<String> genders,
             @RequestParam(value = "age", required = false) List<String> ages,
             @RequestParam(value = "job", required = false) List<String> jobs) throws ChangeSetPersister.NotFoundException, JsonProcessingException {
 

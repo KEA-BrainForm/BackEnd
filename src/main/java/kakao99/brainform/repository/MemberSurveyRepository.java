@@ -13,11 +13,12 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class MemberSurveyRepository  {
+public class MemberSurveyRepository {
     private final EntityManager em;
     private final JPAQueryFactory query;
 
     private QMemberSurvey memberSurvey = QMemberSurvey.memberSurvey;
+
     private QSurvey survey = QSurvey.survey;
 
 
@@ -71,6 +72,14 @@ public class MemberSurveyRepository  {
             return null;
         }
         return memberSurvey.member.job.in(jobs);
+    }
+
+    public List<Survey> findMemberSurveyByMemberId(Long id) {
+        return query
+                .select(survey)
+                .from(memberSurvey)
+                .where(memberSurvey.member.id.eq(id))
+                .fetch();
     }
 
 }
