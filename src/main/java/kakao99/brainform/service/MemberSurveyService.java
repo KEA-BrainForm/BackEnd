@@ -1,8 +1,9 @@
 package kakao99.brainform.service;
 
-import kakao99.brainform.dto.AnswerDTO;
-import kakao99.brainform.dto.FilterDTO;
-import kakao99.brainform.dto.QuestionDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityManager;
+import kakao99.brainform.dto.*;
 import kakao99.brainform.entity.Member;
 import kakao99.brainform.entity.MemberSurvey;
 import kakao99.brainform.entity.Survey;
@@ -19,8 +20,10 @@ import kakao99.brainform.repository.question.MultipleChoiceQuestionRepository;
 import kakao99.brainform.repository.question.SubjectiveQuestionRepository;
 import kakao99.brainform.repository.question.YesOrNoQuestionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberSurveyService {
 
     private final SurveyRepository surveyRepository;
@@ -37,6 +41,8 @@ public class MemberSurveyService {
     private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
     private final SubjectiveQuestionRepository subjectiveQuestionRepository;
     private final MemberRepository memberRepository;
+    private final ObjectMapper mapper;
+    private final EntityManager em;
     public MemberSurvey createMemberSurvey(Member member, Long surveyId) {
         Survey survey = surveyRepository.findSurveyById(surveyId);  //
         MemberSurvey memberSurvey = new MemberSurvey();
@@ -46,55 +52,31 @@ public class MemberSurveyService {
         return memberSurveyRepository.save(memberSurvey);
     }
 
-    public List<QuestionDTO> getDataWithFilter(FilterDTO filterDTO) {
-        System.out.println("filterDTO = " + filterDTO);
-        System.out.println("filterDTO.getAges() = " + filterDTO.getAges());
-        System.out.println("filterDTO.getOccupations() = " + filterDTO.getOccupations());
-        System.out.println("filterDTO.getGenders() = " + filterDTO.getGenders());
-        System.out.println("filterDTO.getSurveyId() = " + filterDTO.getSurveyId());
-        System.out.println("filterDTO.getOccupations().toString().get(0): "+ filterDTO.getOccupations().get(0));
-        System.out.println("filterDTO.getOccupations().toString().get(0): "+ filterDTO.getOccupations().get(0).getClass().getName());
+    @Transactional
+    public Survey getDataWithFilter(FilterDTO filterDTO) throws JsonProcessingException {
 
-        Long surveyId = Long.valueOf(filterDTO.getSurveyId());
+        log.info("필터링 진입");
+        Survey surveyById = surveyRepository.findSurveyById(filterDTO.getSurveyId());
 
-        Survey surveyById = surveyRepository.findSurveyById(surveyId);
-        List<MultipleChoiceQuestion> multipleChoiceQuestions = surveyById.getMultipleChoiceQuestions();
+        log.info("필터링 진행");
+        List<MemberSurvey> memberSurveyFilter = memberSurveyRepository.getMemberSurveyFilter(filterDTO);
+        log.info("필터링 길이={}",memberSurveyFilter.get(0).getMember().getUsername());
 
-        // 직업 1개 처리 코드
-        List<MemberSurvey> memberSurveys = memberSurveyRepository.findMemberSurveyByMemberJobAndSurveyId(filterDTO.getOccupations().get(0), surveyId);
-        List<QuestionDTO> questionDTOList = new ArrayList<>();
+        AnswerDTO answerDTO = new AnswerDTO();
+        for (MemberSurvey memberSurvey : memberSurveyFilter) {
 
-        for (MemberSurvey memberSurvey : memberSurveys) {
-
-            QuestionDTO questionDTO = new QuestionDTO();
-            questionDTO.setSurveyeeId(memberSurvey.getMember().getId());
-            questionDTO.setMultipleChoiceQuestions(multipleChoiceQuestions);
-
-            System.out.println("MultipleDChoice Answers:");
-            for (MultipleChoiceAnswer answer : memberSurvey.getMultipleChoiceAnswers()) {
-                questionDTO.setId(answer.getMultipleChoiceQuestion().getId());
-                questionDTO.setNum(answer.getMultipleChoiceQuestion().getNum());
-                questionDTO.setMultipleChoiceAnswers(memberSurvey.getMultipleChoiceAnswers());
-            }
-
-            // Print subjectiveAnswers
-            System.out.println("Subjective Answers:");
-            for (SubjectiveAnswer answer : memberSurvey.getSubjectiveAnswers()) {
-                questionDTO.setId(answer.getSubjectiveQuestion().getId());
-                questionDTO.setNum(answer.getSubjectiveQuestion().getNum());
-                questionDTO.setSubjectiveAnswers(memberSurvey.getSubjectiveAnswers());
-            }
-
-            // Print yesOrNoAnswers
-            System.out.println("Yes/No Answers:");
-            for (YesOrNoAnswer answer : memberSurvey.getYesOrNoAnswers()) {
-                questionDTO.setId(answer.getYesOrNoQuestion().getId());
-                questionDTO.setNum(answer.getYesOrNoQuestion().getNum());
-                questionDTO.setYesOrNoAnswers(memberSurvey.getYesOrNoAnswers());
-
-            }
-            questionDTOList.add(questionDTO);
+            log.info("응답 내용={}",memberSurvey.getMultipleChoiceAnswers().size());
+            answerDTO.updateAnswer(memberSurvey);
         }
-        return questionDTOList;
+
+        String answerDTOtoString = mapper.writeValueAsString(answerDTO);
+        log.info("응답 내용 통합={}", answerDTOtoString);
+
+        log.info("필터링 완료");
+        Survey survey = surveyById.filterQuestions(answerDTO);
+
+        log.info("필터링 된 dto={}", mapper.writeValueAsString(survey));
+
+        return survey;
     }
 }

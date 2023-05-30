@@ -7,8 +7,10 @@ import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.annotate.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "multiplechoice_question")
+@Slf4j
 public class MultipleChoiceQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +43,7 @@ public class MultipleChoiceQuestion {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @OneToMany(mappedBy = "multipleChoiceQuestion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "multipleChoiceQuestion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<MultipleChoiceAnswer> multipleChoiceAnswers;
 
@@ -50,5 +53,28 @@ public class MultipleChoiceQuestion {
         this.choice3 = o2;
         this.choice4 = o3;
         this.choice5 = o4;
+    }
+
+    public MultipleChoiceQuestion filterAnswer(List<MultipleChoiceAnswer> answers) {
+
+        List<MultipleChoiceAnswer> tmp = new ArrayList<>();
+        for (MultipleChoiceAnswer multipleChoiceAnswer : answers) {
+            if (multipleChoiceAnswer.getMultipleChoiceQuestion().getId().equals(this.id)) {
+                tmp.add(multipleChoiceAnswer);
+            }
+        }
+        MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestion.builder()
+                .id(this.id)
+                .num(this.num)
+                .question(this.question)
+                .count(this.count)
+                .choice1(this.choice1)
+                .choice2(this.choice2)
+                .choice3(this.choice3)
+                .choice4(this.choice4)
+                .choice5(this.choice5)
+                .survey(this.survey)
+                .multipleChoiceAnswers(tmp).build();
+        return multipleChoiceQuestion;
     }
 }

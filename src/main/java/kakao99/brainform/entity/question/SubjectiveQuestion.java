@@ -39,4 +39,15 @@ public class SubjectiveQuestion {
     public void setQuestion(String title) {
         this.question = title;
     }
+
+    public SubjectiveQuestion filterAnswer(List<SubjectiveAnswer> answers) {
+        SubjectiveQuestion subjectiveQuestion = SubjectiveQuestion.builder()
+                .id(this.id)
+                .num(this.num)
+                .question(this.question)
+                .subjectiveAnswers(answers)
+                .build();
+
+        return subjectiveQuestion;
+    }
 }
