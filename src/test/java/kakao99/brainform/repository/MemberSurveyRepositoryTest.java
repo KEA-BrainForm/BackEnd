@@ -37,10 +37,10 @@ class MemberSurveyRepositoryTest {
         //given
 
         List<String> genders = new ArrayList<>();
-        //genders.add("female");
+        genders.add("female");
 
         List<String> ages = new ArrayList<>();
-        ages.add("20대");
+        //ages.add("20대");
 
         List<String> jobs = new ArrayList<>();
         //jobs.add("student");

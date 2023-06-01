@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import kakao99.brainform.dto.AnswerDTO;
 import kakao99.brainform.dto.SurveyFilterResultDTO;
 import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.SubjectiveAnswer;
@@ -16,6 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,24 +73,23 @@ public class Survey {
     @JsonManagedReference
     private List<SubjectiveQuestion> subjectiveQuestions;
 
-    public Survey filterQuestions(MemberSurvey memberSurvey) {
+    public Survey filterQuestions(AnswerDTO answerDTO) {
+            this.multipleChoiceQuestions = this.multipleChoiceQuestions.stream().map(
+                    question -> {
+                        MultipleChoiceQuestion filteredQuestion = question.filterAnswer(answerDTO.getMultipleChoiceAnswers());
+                        return filteredQuestion;
+                    }).collect(Collectors.toList());
+            this.yesOrNoQuestions = this.yesOrNoQuestions.stream().map(
+                    question -> {
+                        YesOrNoQuestion yesOrNoQuestion = question.filterAnswer(answerDTO.getYesOrNoAnswers());
+                        return yesOrNoQuestion;
+                    }).collect(Collectors.toList());
 
-        this.multipleChoiceQuestions = this.multipleChoiceQuestions.stream().map(
-                question -> {
-                    MultipleChoiceQuestion filteredQuestion = question.filterAnswer(memberSurvey.getMultipleChoiceAnswers());
-                    return filteredQuestion;
-                }).collect(Collectors.toList());
-        this.yesOrNoQuestions = this.yesOrNoQuestions.stream().map(
-                question -> {
-                    question.filterAnswer(memberSurvey.getYesOrNoAnswers());
-                    return question;
-                }).collect(Collectors.toList());
-
-        this.subjectiveQuestions = this.subjectiveQuestions.stream().map(
-                question -> {
-                    question.filterAnswer(memberSurvey.getSubjectiveAnswers());
-                    return question;
-                }).collect(Collectors.toList());
+            this.subjectiveQuestions = this.subjectiveQuestions.stream().map(
+                    question -> {
+                        SubjectiveQuestion subjectiveQuestion = question.filterAnswer(answerDTO.getSubjectiveAnswers());
+                        return subjectiveQuestion;
+                    }).collect(Collectors.toList());
 
         return this;
     }

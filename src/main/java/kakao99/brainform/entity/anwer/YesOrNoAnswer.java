@@ -19,7 +19,6 @@ public class YesOrNoAnswer {
     @Column(name = "answer_id")
     private Long id;
 
-
     private Boolean answer;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -19,8 +19,6 @@ public class MultipleChoiceAnswer {
     @Column(name = "answer_id")
     private Long id;
 
-    //private int num;
-
     private String answer;
 
     @ManyToOne(fetch = FetchType.LAZY)
