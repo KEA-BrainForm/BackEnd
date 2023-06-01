@@ -1,5 +1,6 @@
 package kakao99.brainform.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kakao99.brainform.dto.CreateQuestionDto;
 import kakao99.brainform.dto.CreateQuestionInput;
 import kakao99.brainform.entity.Member;
@@ -7,11 +8,13 @@ import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
 import kakao99.brainform.entity.question.SubjectiveQuestion;
 import kakao99.brainform.entity.question.YesOrNoQuestion;
+import kakao99.brainform.repository.MemberSurveyRepository;
 import kakao99.brainform.repository.question.MultipleChoiceQuestionRepository;
 import kakao99.brainform.repository.question.SubjectiveQuestionRepository;
 import kakao99.brainform.repository.SurveyRepository;
 import kakao99.brainform.repository.question.YesOrNoQuestionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +23,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class QuestionService {
     private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
     private final YesOrNoQuestionRepository yesOrNoQuestionRepository;
     private final SubjectiveQuestionRepository subjectiveQuestionRepository;
     private final SurveyRepository surveyRepository;
-
+    private final MemberSurveyRepository memberSurveyRepository;
+    private final ObjectMapper mapper;
     public Survey createSurvey(CreateQuestionDto obj, Member member) {
         Survey survey = new Survey();
         survey.setId(obj.getSurveyId());
@@ -86,8 +91,13 @@ public class QuestionService {
 
     public List<Survey> findAllSurveyIMade(Member member) {
         List<Survey> allSurveyByMember = surveyRepository.findAllByMember(member);
-
         return allSurveyByMember;
+    }
+
+    public List<Survey> findAllSurveyIAnswered(Member member) {
+        List<Survey> memberSurveyByMemberId = memberSurveyRepository.findMemberSurveyByMemberId(member.getId());
+        log.info("응답 내용 개수={}",memberSurveyByMemberId.size());
+        return memberSurveyByMemberId;
     }
 
     public Survey getSurveyStatistic(Long surveyId) {

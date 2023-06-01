@@ -17,6 +17,7 @@ public class MemberSurveyRepository {
     private final JPAQueryFactory query;
 
     private QMemberSurvey memberSurvey = QMemberSurvey.memberSurvey;
+
     private QSurvey survey = QSurvey.survey;
 
 

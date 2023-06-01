@@ -75,6 +75,7 @@ public class MemberSurveyService {
         log.info("필터링 완료");
         Survey survey = surveyById.filterQuestions(answerDTO);
 
+
         log.info("필터링 된 dto={}", mapper.writeValueAsString(survey));
 
         return survey;
