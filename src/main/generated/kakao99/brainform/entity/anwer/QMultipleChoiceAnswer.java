@@ -30,8 +30,6 @@ public class QMultipleChoiceAnswer extends EntityPathBase<MultipleChoiceAnswer> 
 
     public final kakao99.brainform.entity.question.QMultipleChoiceQuestion multipleChoiceQuestion;
 
-    public final NumberPath<Integer> num = createNumber("num", Integer.class);
-
     public QMultipleChoiceAnswer(String variable) {
         this(MultipleChoiceAnswer.class, forVariable(variable), INITS);
     }

@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import kakao99.brainform.dto.FilterDTO;
 import kakao99.brainform.entity.*;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class MemberSurveyRepository  {
+public class MemberSurveyRepository {
     private final EntityManager em;
     private final JPAQueryFactory query;
 
@@ -72,5 +71,4 @@ public class MemberSurveyRepository  {
         }
         return memberSurvey.member.job.in(jobs);
     }
-
 }

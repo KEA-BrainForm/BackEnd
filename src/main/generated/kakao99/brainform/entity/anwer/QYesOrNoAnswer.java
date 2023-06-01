@@ -28,8 +28,6 @@ public class QYesOrNoAnswer extends EntityPathBase<YesOrNoAnswer> {
 
     public final kakao99.brainform.entity.QMemberSurvey memberSurvey;
 
-    public final NumberPath<Integer> num = createNumber("num", Integer.class);
-
     public final kakao99.brainform.entity.question.QYesOrNoQuestion yesOrNoQuestion;
 
     public QYesOrNoAnswer(String variable) {
