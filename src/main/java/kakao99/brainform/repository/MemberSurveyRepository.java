@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import kakao99.brainform.dto.FilterDTO;
 import kakao99.brainform.entity.*;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,13 +72,4 @@ public class MemberSurveyRepository {
         }
         return memberSurvey.member.job.in(jobs);
     }
-
-    public List<Survey> findMemberSurveyByMemberId(Long id) {
-        return query
-                .select(survey)
-                .from(memberSurvey)
-                .where(memberSurvey.member.id.eq(id))
-                .fetch();
-    }
-
 }
