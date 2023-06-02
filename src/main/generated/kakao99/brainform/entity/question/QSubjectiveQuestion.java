@@ -26,11 +26,11 @@ public class QSubjectiveQuestion extends EntityPathBase<SubjectiveQuestion> {
 
     public final NumberPath<Integer> num = createNumber("num", Integer.class);
 
-    public final StringPath question = createString("question");
-
     public final ListPath<kakao99.brainform.entity.anwer.SubjectiveAnswer, kakao99.brainform.entity.anwer.QSubjectiveAnswer> subjectiveAnswers = this.<kakao99.brainform.entity.anwer.SubjectiveAnswer, kakao99.brainform.entity.anwer.QSubjectiveAnswer>createList("subjectiveAnswers", kakao99.brainform.entity.anwer.SubjectiveAnswer.class, kakao99.brainform.entity.anwer.QSubjectiveAnswer.class, PathInits.DIRECT2);
 
     public final kakao99.brainform.entity.QSurvey survey;
+
+    public final StringPath title = createString("title");
 
     public QSubjectiveQuestion(String variable) {
         this(SubjectiveQuestion.class, forVariable(variable), INITS);

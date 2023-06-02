@@ -80,4 +80,8 @@ public class MemberSurveyRepository {
                 .where(memberSurvey.member.id.eq(id))
                 .fetch();
     }
+
+    public void deleteMemberSurvey(MemberSurvey memberSurvey) {
+        em.remove(memberSurvey);
+    }
 }

@@ -26,9 +26,9 @@ public class QYesOrNoQuestion extends EntityPathBase<YesOrNoQuestion> {
 
     public final NumberPath<Integer> num = createNumber("num", Integer.class);
 
-    public final StringPath question = createString("question");
-
     public final kakao99.brainform.entity.QSurvey survey;
+
+    public final StringPath title = createString("title");
 
     public final ListPath<kakao99.brainform.entity.anwer.YesOrNoAnswer, kakao99.brainform.entity.anwer.QYesOrNoAnswer> yesOrNoAnswer = this.<kakao99.brainform.entity.anwer.YesOrNoAnswer, kakao99.brainform.entity.anwer.QYesOrNoAnswer>createList("yesOrNoAnswer", kakao99.brainform.entity.anwer.YesOrNoAnswer.class, kakao99.brainform.entity.anwer.QYesOrNoAnswer.class, PathInits.DIRECT2);
 

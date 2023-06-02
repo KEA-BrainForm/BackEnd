@@ -12,9 +12,12 @@ import kakao99.brainform.entity.question.YesOrNoQuestion;
 import kakao99.brainform.service.AnswerService;
 import kakao99.brainform.service.MemberSurveyService;
 import kakao99.brainform.service.QuestionService;
+import kakao99.brainform.service.SurveyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +31,7 @@ public class SurveyController {
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final MemberSurveyService memberSurveyService;
+    private final SurveyService surveyService;
     private final ObjectMapper mapper;
 
     @GetMapping("/api/data")    //  생성한 설문지 조회
@@ -46,10 +50,23 @@ public class SurveyController {
         return allSurveyIAnswered;
     }
 
+    @DeleteMapping("/api/survey/{id}")
+    public ResponseEntity<?> deleteSurvey(
+            @PathVariable(name = "id") Long id,
+            Authentication authentication
+    ) {
+        try {
+
+            Member member = (Member) authentication.getPrincipal();
+
+            return surveyService.deleteSurvey(id, member);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     // surveyId에 해당하는 설문지의 통계 결과 가져오기
     @GetMapping("/api/statistic/surveys/{surveyId}")
-
     public Survey surveyStatistic(@PathVariable("surveyId") Long surveyId) {
 
 //        Member member = (Member) authentication.getPrincipal();

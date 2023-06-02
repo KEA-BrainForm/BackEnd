@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +45,7 @@ public class MemberSurveyService {
     private final ObjectMapper mapper;
     private final EntityManager em;
     public MemberSurvey createMemberSurvey(Member member, Long surveyId) {
-        Survey survey = surveyRepository.findSurveyById(surveyId);  //
+        Survey survey = surveyRepository.findSurveyById(surveyId).get();  //
         MemberSurvey memberSurvey = new MemberSurvey();
         memberSurvey.setMember(member);
         memberSurvey.setSurvey(survey);
@@ -56,7 +57,7 @@ public class MemberSurveyService {
     public Survey getDataWithFilter(FilterDTO filterDTO) throws JsonProcessingException {
 
         log.info("필터링 진입");
-        Survey surveyById = surveyRepository.findSurveyById(filterDTO.getSurveyId());
+        Survey surveyById = surveyRepository.findSurveyById(filterDTO.getSurveyId()).get();
 
         log.info("필터링 진행");
         List<MemberSurvey> memberSurveyFilter = memberSurveyRepository.getMemberSurveyFilter(filterDTO);
