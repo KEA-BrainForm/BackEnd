@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface YesOrNoQuestionRepository extends JpaRepository<YesOrNoQuestion, Long> {
 
-    List<QuestionService.Question> findNumBySurveyId(Long surveyId);
+
     YesOrNoQuestion save(YesOrNoQuestion yesOrNoQuestion);
 
     Optional<YesOrNoQuestion> findBySurveyId(Long surveyId);

@@ -1,12 +1,12 @@
 package kakao99.brainform.service;
 
-<<<<<<< HEAD
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kakao99.brainform.dto.CreateQuestionDto;
 import kakao99.brainform.dto.CreateQuestionInput;
-=======
+
 import kakao99.brainform.dto.*;
->>>>>>> surveymodify
+
 import kakao99.brainform.entity.Member;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
@@ -18,12 +18,12 @@ import kakao99.brainform.repository.question.SubjectiveQuestionRepository;
 import kakao99.brainform.repository.SurveyRepository;
 import kakao99.brainform.repository.question.YesOrNoQuestionRepository;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
+
 import lombok.extern.slf4j.Slf4j;
-=======
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
->>>>>>> surveymodify
+
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
@@ -39,17 +39,12 @@ public class QuestionService {
     private final YesOrNoQuestionRepository yesOrNoQuestionRepository;
     private final SubjectiveQuestionRepository subjectiveQuestionRepository;
     private final SurveyRepository surveyRepository;
-<<<<<<< HEAD
+
     private final MemberSurveyRepository memberSurveyRepository;
     private final ObjectMapper mapper;
-=======
 
-    public interface Question {
-        Integer getNum();
-        void setNum(Integer num);
-    }
 
->>>>>>> surveymodify
+
     public Survey createSurvey(CreateQuestionDto obj, Member member) {
         Survey survey = new Survey();
         survey.setId(obj.getSurveyId());

@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface MultipleChoiceQuestionRepository extends JpaRepository<MultipleChoiceQuestion, Long> {
 
-    List<QuestionService.Question> findNumBySurveyId(Long surveyId);
+
     MultipleChoiceQuestion save(MultipleChoiceQuestion multipleChoiceQuestion);
     Optional<MultipleChoiceQuestion> findBySurveyId(Long id);
 

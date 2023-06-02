@@ -13,11 +13,11 @@ import java.util.Optional;
 @Repository
 public interface SubjectiveQuestionRepository extends JpaRepository<SubjectiveQuestion, Long> {
 
-    List<QuestionService.Question> findNumBySurveyId(Long surveyId);
+
     SubjectiveQuestion save(SubjectiveQuestion subjectiveQuestion);
     Optional<SubjectiveQuestion> findBySurvey(Long id);
 
     SubjectiveQuestion findSubjectiveQuestionById(Long id);
 
-    Collection<? extends QuestionService.Question> findBySurveyId(Long surveyId);
+
 }
