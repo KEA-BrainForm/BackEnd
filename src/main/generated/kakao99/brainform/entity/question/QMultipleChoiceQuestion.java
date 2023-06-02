@@ -40,9 +40,9 @@ public class QMultipleChoiceQuestion extends EntityPathBase<MultipleChoiceQuesti
 
     public final NumberPath<Integer> num = createNumber("num", Integer.class);
 
-    public final StringPath question = createString("question");
-
     public final kakao99.brainform.entity.QSurvey survey;
+
+    public final StringPath title = createString("title");
 
     public QMultipleChoiceQuestion(String variable) {
         this(MultipleChoiceQuestion.class, forVariable(variable), INITS);

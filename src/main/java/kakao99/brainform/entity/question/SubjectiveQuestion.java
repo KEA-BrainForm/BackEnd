@@ -32,7 +32,7 @@ public class SubjectiveQuestion {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @OneToMany(mappedBy = "subjectiveQuestion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subjectiveQuestion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<SubjectiveAnswer> subjectiveAnswers;
 
