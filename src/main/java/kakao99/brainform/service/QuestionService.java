@@ -1,7 +1,6 @@
 package kakao99.brainform.service;
 
-import kakao99.brainform.dto.CreateQuestionDto;
-import kakao99.brainform.dto.CreateQuestionInput;
+import kakao99.brainform.dto.*;
 import kakao99.brainform.entity.Member;
 import kakao99.brainform.entity.Survey;
 import kakao99.brainform.entity.question.MultipleChoiceQuestion;
@@ -12,9 +11,12 @@ import kakao99.brainform.repository.question.SubjectiveQuestionRepository;
 import kakao99.brainform.repository.SurveyRepository;
 import kakao99.brainform.repository.question.YesOrNoQuestionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
+import java.util.Comparator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,6 +28,11 @@ public class QuestionService {
     private final SubjectiveQuestionRepository subjectiveQuestionRepository;
     private final SurveyRepository surveyRepository;
 
+    public interface Question {
+        Integer getNum();
+        void setNum(Integer num);
+    }
+
     public Survey createSurvey(CreateQuestionDto obj, Member member) {
         Survey survey = new Survey();
         survey.setId(obj.getSurveyId());
@@ -36,6 +43,164 @@ public class QuestionService {
 
         return surveyRepository.save(survey);
     }
+
+    public Survey createSurvey(PatchQuestoinDTO obj, Member member, Long survey_id) {
+        Optional<Survey> optionalSurvey = surveyRepository.findById(survey_id);
+        if (!optionalSurvey.isPresent()) {
+            throw new UsernameNotFoundException("Survey not found");
+        }
+
+        Survey survey = optionalSurvey.get();
+        survey.setIsOpen(obj.getVisibility());
+        survey.setIsBrainwave(obj.getWearable());
+        survey.setTitle(obj.getTitle());
+        survey.setMember(member);
+
+        return surveyRepository.save(survey);
+    }
+    public Survey update(PatchQuestoinDTO dto, Authentication authentication,Long survey_id) {
+        // Authentication 객체에서 사용자 이름 가져오기
+        Member member = (Member) authentication.getPrincipal();
+
+        // dto의 Survey Id로 Survey 정보 조회
+        Survey surveyToUpdate = surveyRepository.findById(survey_id)
+                .orElseThrow(() -> new UsernameNotFoundException("Survey could not be found."));
+
+        // DTO로부터 변경할 정보를 가져와 Survey 정보 업데이트
+        surveyToUpdate.setTitle(dto.getTitle());
+        surveyToUpdate.setIsOpen(dto.getVisibility());
+        surveyToUpdate.setIsBrainwave(dto.getWearable());
+        surveyToUpdate.setMember(member);
+
+        // 질문 업데이트
+        patchQuestion(survey_id, dto.getSavedquestionList());
+
+        // 변경된 설문 정보 저장
+        return surveyRepository.save(surveyToUpdate);
+    }
+
+
+    public Void delete(Long survey_id, List<SavedQuestionInput> questionList) {
+        // Survey Id로 Survey 정보 조회
+        Survey survey = surveyRepository.findById(survey_id)
+                .orElseThrow(() -> new UsernameNotFoundException("Survey could not be found."));
+
+        // 설문조사에 연결된 질문 삭제
+        deleteQuestion(survey_id, questionList);
+
+        // Remaining questions from each type
+
+
+        return null;
+    }
+
+
+
+
+    public void deleteQuestion(Long surveyId, List<SavedQuestionInput> questionList) {
+        Optional<Survey> optionalSurvey = surveyRepository.findById(surveyId);
+
+        if (!optionalSurvey.isPresent()) {
+            throw new IllegalArgumentException("Survey not found");
+        }
+        Survey survey = optionalSurvey.get();
+
+        for (SavedQuestionInput input : questionList) {
+            switch (input.getType().toLowerCase()) {
+                case "multiplechoice":
+                    MultipleChoiceQuestion mcq = multipleChoiceQuestionRepository.findById(input.getId())
+                            .orElseThrow(() -> new IllegalArgumentException("Question not found"));
+
+                    // Ensure the question belongs to the correct survey before deleting
+                    if (!mcq.getSurvey().equals(survey)) {
+                        throw new IllegalArgumentException("Question does not belong to the specified survey");
+                    }
+                    multipleChoiceQuestionRepository.delete(mcq);
+                    break;
+
+                case "shortanswer":
+                    SubjectiveQuestion sq = subjectiveQuestionRepository.findById(input.getId())
+                            .orElseThrow(() -> new IllegalArgumentException("Question not found"));
+
+                    // Ensure the question belongs to the correct survey before deleting
+                    if (!sq.getSurvey().equals(survey)) {
+                        throw new IllegalArgumentException("Question does not belong to the specified survey");
+                    }
+                    subjectiveQuestionRepository.delete(sq);
+                    break;
+
+                case "yesorno":
+                    YesOrNoQuestion ynq = yesOrNoQuestionRepository.findById(input.getId())
+                            .orElseThrow(() -> new IllegalArgumentException("Question not found"));
+
+                    // Ensure the question belongs to the correct survey before deleting
+                    if (!ynq.getSurvey().equals(survey)) {
+                        throw new IllegalArgumentException("Question does not belong to the specified survey");
+                    }
+                    yesOrNoQuestionRepository.delete(ynq);
+                    break;
+
+                default:
+                    throw new IllegalArgumentException("Invalid question type");
+            }
+        }
+    }
+
+    public void patchQuestion(Long surveyId, List<SavedQuestionInput> questionList) {
+        Optional<Survey> optionalSurvey = surveyRepository.findById(surveyId);
+        int length = questionList.toArray().length;
+        if (!optionalSurvey.isPresent()) {
+            throw new IllegalArgumentException("Survey not found");
+        }
+        Survey survey = optionalSurvey.get();
+
+
+
+
+        for (SavedQuestionInput input : questionList) {
+            switch (input.getType().toLowerCase()) {
+                case "multiplechoice":
+                    MultipleChoiceQuestion mcq = multipleChoiceQuestionRepository.findById(input.getId())
+                            .orElseThrow(() -> new IllegalArgumentException("Question not found"));
+                    mcq.setSurvey(survey);
+                   // mcq.setNum((input.getId().intValue()));
+                    mcq.setTitle(input.getTitle());
+
+                    List<Object> options = input.getOptions();
+                    String[] texts = new String[5];
+
+                    for (int j = 0; j < options.size() && j < 5; j++) {
+                        texts[j] = ((Map<String, String>) ((List<?>) options).get(j)).get("text");
+                       ;
+                    }
+                    mcq.setChoice(texts[0], texts[1], texts[2], texts[3], texts[4]);
+                    mcq.setCount(options.size());
+                    break;
+
+                case "shortanswer":
+                    SubjectiveQuestion sq = subjectiveQuestionRepository.findById(input.getId())
+                            .orElseThrow(() -> new IllegalArgumentException("Question not found"));
+                    sq.setSurvey(survey);
+                    // sq.setNum((input.getId().intValue()));
+                    sq.setQuestion(input.getTitle());
+                    break;
+
+                case "yesorno":
+                    YesOrNoQuestion ynq = yesOrNoQuestionRepository.findById(input.getId())
+                            .orElseThrow(() -> new IllegalArgumentException("Question not found"));
+                    ynq.setSurvey(survey);
+                    //ynq.setNum((input.getId().intValue()));
+                    ynq.setQuestion(input.getTitle());
+                    break;
+
+                default:
+                    throw new IllegalArgumentException("Invalid question type");
+            }
+        }
+    }
+
+
+
     public void createQuestion(Survey survey, List<CreateQuestionInput> questionList) {
         int length = questionList.toArray().length;
 
@@ -44,7 +209,7 @@ public class QuestionService {
                 MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion();
                 multipleChoiceQuestion.setSurvey(survey);
                 multipleChoiceQuestion.setNum(questionList.get(i).getId());
-                multipleChoiceQuestion.setQuestion(questionList.get(i).getTitle());
+                multipleChoiceQuestion.setTitle(questionList.get(i).getTitle());
                 List<Object> options = questionList.get(i).getOptions();
                 String[] texts = new String[5];
 

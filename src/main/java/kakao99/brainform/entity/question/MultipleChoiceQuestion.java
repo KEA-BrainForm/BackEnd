@@ -29,7 +29,7 @@ public class MultipleChoiceQuestion {
 
 
     private Integer num;
-    private String question;
+    private String title;
 
     private Integer count;
     private String choice1;
@@ -66,7 +66,7 @@ public class MultipleChoiceQuestion {
         MultipleChoiceQuestion multipleChoiceQuestion = MultipleChoiceQuestion.builder()
                 .id(this.id)
                 .num(this.num)
-                .question(this.question)
+                .title(this.title)
                 .count(this.count)
                 .choice1(this.choice1)
                 .choice2(this.choice2)
