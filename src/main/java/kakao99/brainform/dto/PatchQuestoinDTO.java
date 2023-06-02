@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateQuestionDto{
+public class PatchQuestoinDTO{
 
     @NotNull
     private String title;
@@ -18,6 +18,10 @@ public class CreateQuestionDto{
     @NotNull
     private List<CreateQuestionInput> questionList;
 
+    private List<SavedQuestionInput> savedquestionList;
+
+    private List<CreateQuestionInput> idDeleteList;
+    private List<SavedQuestionInput> numDeleteList;
 
 
     @NotNull

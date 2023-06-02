@@ -25,7 +25,7 @@ public class YesOrNoQuestion {
     private Long id;
 
     private Integer num;
-    private String question;
+    private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
@@ -37,14 +37,14 @@ public class YesOrNoQuestion {
     private List<YesOrNoAnswer> yesOrNoAnswer;
 
     public void setQuestion(String title) {
-        this.question = title;
+        this.title = title;
     }
 
     public YesOrNoQuestion filterAnswer(List<YesOrNoAnswer> answers) {
         YesOrNoQuestion yesOrNoQuestion = YesOrNoQuestion.builder()
                 .id(this.id)
                 .num(this.num)
-                .question(this.question)
+                .title(this.title)
                 .yesOrNoAnswer(answers)
                 .build();
 
