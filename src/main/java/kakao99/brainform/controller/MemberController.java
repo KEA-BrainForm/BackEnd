@@ -139,10 +139,10 @@ public class MemberController {
     public BrainMemberInfo sendMemberInfo(@PathVariable(name = "code") String code,
                                           HttpServletRequest request) throws JsonProcessingException {
 
-        log.info(code);
+        //log.info(code);
         BrainMemberInfo brainMemberInfo = brainWaveCodeRepository.findByCode(code);
         String s = objectMapper.writeValueAsString(brainMemberInfo);
-        log.info(s);
+        //log.info(s);
 
         return brainMemberInfo;
     }
@@ -172,6 +172,8 @@ public class MemberController {
     @PostMapping("api/imgInfo")
     public BrainData postBrainData(@RequestParam("braindata") String brainData,
                                    @RequestParam("image") MultipartFile image) throws IOException {
+
+        System.out.printf("요청 받음"+ brainData);
         // byte 배열로 이미지 데이터 변환
         byte[] imageData = image.getBytes();
         BrainData brainDataObj = new ObjectMapper().readValue(brainData, BrainData.class);
@@ -179,16 +181,20 @@ public class MemberController {
         // BrainData 객체의 필드 값을 추출하여 변수에 저장
         String memberID = brainDataObj.getMemberId();
         String surveyId = brainDataObj.getSurveyId();
+        double avgAtt = brainDataObj.getAvgAtt();
+        double avgMed = brainDataObj.getAvgMed();
 
         // BrainData 객체 생성
         BrainData newBrainDataObj = BrainData.builder()
                 .memberId(memberID)
                 .surveyId(surveyId)
                 .image(imageData)
+                .avgAtt(avgAtt)
+                .avgMed(avgMed)
                 .build();
 
         byte[] img = newBrainDataObj.getImage();
-        String filename = "C:\\Users\\USER\\Desktop\\설문조사 BE2\\BackEnd\\src\\main\\resources\\static" + memberID + "_"+surveyId+".png";
+        String filename = "C:\\Users\\USER\\Desktop\\" + memberID + "_"+surveyId+".png";
         // 바이트 배열로부터 BufferedImage 객체 생성
         InputStream in = new ByteArrayInputStream(img);
         BufferedImage bufferedImage = ImageIO.read(in);

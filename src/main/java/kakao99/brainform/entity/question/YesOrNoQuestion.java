@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import kakao99.brainform.entity.Survey;
+import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
@@ -24,18 +25,29 @@ public class YesOrNoQuestion {
     private Long id;
 
     private Integer num;
-    private String question;
+    private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @OneToMany(mappedBy = "yesOrNoQuestion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "yesOrNoQuestion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<YesOrNoAnswer> yesOrNoAnswer;
 
     public void setQuestion(String title) {
-        this.question = title;
+        this.title = title;
+    }
+
+    public YesOrNoQuestion filterAnswer(List<YesOrNoAnswer> answers) {
+        YesOrNoQuestion yesOrNoQuestion = YesOrNoQuestion.builder()
+                .id(this.id)
+                .num(this.num)
+                .title(this.title)
+                .yesOrNoAnswer(answers)
+                .build();
+
+        return yesOrNoQuestion;
     }
 }

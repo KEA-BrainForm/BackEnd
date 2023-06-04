@@ -11,5 +11,9 @@ public class BrainData {
     private String code;
     private byte[] image;
 
+    private double avgAtt;
+
+    private double avgMed;
+
 
 }

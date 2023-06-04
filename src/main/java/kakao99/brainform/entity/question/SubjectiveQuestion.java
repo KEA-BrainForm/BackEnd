@@ -25,18 +25,29 @@ public class SubjectiveQuestion {
     private Long id;
 
     private Integer num;
-    private String question;
+    private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @OneToMany(mappedBy = "subjectiveQuestion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subjectiveQuestion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<SubjectiveAnswer> subjectiveAnswers;
 
     public void setQuestion(String title) {
-        this.question = title;
+        this.title = title;
+    }
+
+    public SubjectiveQuestion filterAnswer(List<SubjectiveAnswer> answers) {
+        SubjectiveQuestion subjectiveQuestion = SubjectiveQuestion.builder()
+                .id(this.id)
+                .num(this.num)
+                .title(this.title)
+                .subjectiveAnswers(answers)
+                .build();
+
+        return subjectiveQuestion;
     }
 }

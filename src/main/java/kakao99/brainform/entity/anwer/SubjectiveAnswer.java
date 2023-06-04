@@ -1,6 +1,7 @@
 package kakao99.brainform.entity.anwer;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.models.auth.In;
 import jakarta.persistence.*;
 import kakao99.brainform.entity.MemberSurvey;
 import kakao99.brainform.entity.question.SubjectiveQuestion;
@@ -19,7 +20,6 @@ public class SubjectiveAnswer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "answer_id")
     private Long id;
-
 
     private String answer;
 

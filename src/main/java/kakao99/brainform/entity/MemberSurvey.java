@@ -41,23 +41,22 @@ public class MemberSurvey {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
     @OneToOne(mappedBy = "memberSurvey", fetch = FetchType.LAZY)
     private BrainwaveResult brainwaveResult;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.LAZY)
+    private List<MultipleChoiceAnswer> multipleChoiceAnswers;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.EAGER)
-    private List<MultipleChoiceAnswer> multipleChoiceAnswers = new ArrayList<>();
+    @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.LAZY)
+    private List<SubjectiveAnswer> subjectiveAnswers;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.EAGER)
-    private List<SubjectiveAnswer> subjectiveAnswers = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.EAGER)
-    private List<YesOrNoAnswer> yesOrNoAnswers = new ArrayList<>();
+    @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.LAZY)
+    private List<YesOrNoAnswer> yesOrNoAnswers;
 }
