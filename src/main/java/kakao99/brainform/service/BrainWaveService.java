@@ -1,5 +1,7 @@
 package kakao99.brainform.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kakao99.brainform.dto.BrainDataDTO;
 import kakao99.brainform.entity.BrainMemberInfo;
 import kakao99.brainform.entity.BrainwaveResult;
@@ -11,6 +13,7 @@ import kakao99.brainform.repository.MemberSurveyRepository;
 import kakao99.brainform.repository.SurveyRepository;
 import kakao99.brainform.util.FileUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BrainWaveService {
 
     private final BrainWaveCodeRepository codeRepository;
@@ -29,8 +33,10 @@ public class BrainWaveService {
     private final MemberSurveyRepository memberSurveyRepository;
     private final FileUtil fileUtil;
 
+    private final ObjectMapper mapper;
+
     @Transactional
-    public ResponseEntity<?> saveBrainWave(BrainDataDTO dto) {
+    public ResponseEntity<?> saveBrainWave(BrainDataDTO dto) throws JsonProcessingException {
 
         Optional<BrainMemberInfo> byCode = codeRepository.findByCode(dto.getCode());
         if (byCode.isEmpty()) {
@@ -39,6 +45,7 @@ public class BrainWaveService {
 
         BrainMemberInfo brainMemberInfo = byCode.get();
 
+
         MemberSurvey memberSurvey = memberSurveyRepository
                 .findMemberSurveyBySurveyIdAndMemberID(brainMemberInfo.getSurveyId(), brainMemberInfo.getMemberId());
 
@@ -46,10 +53,13 @@ public class BrainWaveService {
                 .attAvg(dto.getAvgAtt())
                 .meditAvg(dto.getAvgMed())
                 .img(fileUtil.saveUserImage(dto.getImage()))
-                .memberSurvey(memberSurvey)
                 .build();
 
         brainWaveRepository.save(brainwaveResult);
+        MemberSurvey survey = memberSurvey.setBrainWaveData(brainwaveResult);
+        String s = mapper.writeValueAsString(survey);
+        log.info("member-survey={}", s);
+        memberSurveyRepository.save(survey);
         return new ResponseEntity<>("뇌파 데이터 저장 완료", HttpStatus.OK);
     }
 }

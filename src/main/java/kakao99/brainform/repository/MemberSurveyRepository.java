@@ -69,17 +69,17 @@ public class MemberSurveyRepository {
     }
 
     private BooleanExpression applyAtt(String activate) {
-        if (activate == null) {
+        if (activate == null || activate.isEmpty()) {
             return null;
         }
-        return memberSurvey.brainwaveResult.attAvg.goe(30.0);
+        return memberSurvey.brainwaveResult.attAvg.goe(60.0);
     }
 
     private BooleanExpression applyMedit(String activate) {
-        if (activate == null) {
+        if (activate == null || activate.isEmpty()) {
             return null;
         }
-        return memberSurvey.brainwaveResult.meditAvg.goe(30.0);
+        return memberSurvey.brainwaveResult.meditAvg.goe(60.0);
     }
 
     private BooleanExpression jobEq(List<String> jobs) {

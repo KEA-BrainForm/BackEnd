@@ -26,9 +26,4 @@ public class BrainwaveResult {
 
     @Column(name = "medit_avg")
     private Float meditAvg;
-
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "participate_id")
-    private MemberSurvey memberSurvey;
 }

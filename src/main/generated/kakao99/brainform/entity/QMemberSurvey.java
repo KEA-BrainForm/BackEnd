@@ -58,7 +58,7 @@ public class QMemberSurvey extends EntityPathBase<MemberSurvey> {
 
     public QMemberSurvey(Class<? extends MemberSurvey> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.brainwaveResult = inits.isInitialized("brainwaveResult") ? new QBrainwaveResult(forProperty("brainwaveResult"), inits.get("brainwaveResult")) : null;
+        this.brainwaveResult = inits.isInitialized("brainwaveResult") ? new QBrainwaveResult(forProperty("brainwaveResult")) : null;
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
         this.survey = inits.isInitialized("survey") ? new QSurvey(forProperty("survey"), inits.get("survey")) : null;
     }

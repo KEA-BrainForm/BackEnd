@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,8 +16,6 @@ import com.querydsl.core.types.dsl.PathInits;
 public class QBrainwaveResult extends EntityPathBase<BrainwaveResult> {
 
     private static final long serialVersionUID = 1376961760L;
-
-    private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QBrainwaveResult brainwaveResult = new QBrainwaveResult("brainwaveResult");
 
@@ -30,27 +27,16 @@ public class QBrainwaveResult extends EntityPathBase<BrainwaveResult> {
 
     public final NumberPath<Float> meditAvg = createNumber("meditAvg", Float.class);
 
-    public final QMemberSurvey memberSurvey;
-
     public QBrainwaveResult(String variable) {
-        this(BrainwaveResult.class, forVariable(variable), INITS);
+        super(BrainwaveResult.class, forVariable(variable));
     }
 
     public QBrainwaveResult(Path<? extends BrainwaveResult> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QBrainwaveResult(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QBrainwaveResult(PathMetadata metadata, PathInits inits) {
-        this(BrainwaveResult.class, metadata, inits);
-    }
-
-    public QBrainwaveResult(Class<? extends BrainwaveResult> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.memberSurvey = inits.isInitialized("memberSurvey") ? new QMemberSurvey(forProperty("memberSurvey"), inits.get("memberSurvey")) : null;
+        super(BrainwaveResult.class, metadata);
     }
 
 }

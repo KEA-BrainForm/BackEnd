@@ -115,6 +115,7 @@ public class BrainWaveController {
 
         brainWaveCodeRepository.save(brainMemberInfo);
 
+        log.info("뇌파 측정 종료");
         return new ResponseEntity<>("설문 종료", HttpStatus.OK);
     }
 }
