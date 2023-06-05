@@ -2,6 +2,7 @@ package kakao99.brainform.entity;
 
 import jakarta.persistence.*;
 import jdk.jfr.StackTrace;
+import kakao99.brainform.dto.BrainDataDTO;
 import kakao99.brainform.entity.anwer.MultipleChoiceAnswer;
 import kakao99.brainform.entity.anwer.SubjectiveAnswer;
 import kakao99.brainform.entity.anwer.YesOrNoAnswer;
@@ -45,7 +46,7 @@ public class MemberSurvey {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @OneToOne(mappedBy = "memberSurvey", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "memberSurvey", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private BrainwaveResult brainwaveResult;
 
     @JsonIgnore
@@ -59,4 +60,9 @@ public class MemberSurvey {
     @JsonIgnore
     @OneToMany(mappedBy = "memberSurvey", fetch = FetchType.LAZY)
     private List<YesOrNoAnswer> yesOrNoAnswers;
+
+    public MemberSurvey setBrainWaveDat(BrainwaveResult result) {
+        this.brainwaveResult = result;
+        return this;
+    }
 }
