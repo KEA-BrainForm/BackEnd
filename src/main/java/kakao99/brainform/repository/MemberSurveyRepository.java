@@ -68,15 +68,15 @@ public class MemberSurveyRepository {
         return memberSurvey.member.age.in(ages);
     }
 
-    private BooleanExpression applyAtt(Boolean activate) {
-        if (!activate) {
+    private BooleanExpression applyAtt(String activate) {
+        if (activate == null) {
             return null;
         }
         return memberSurvey.brainwaveResult.attAvg.goe(30.0);
     }
 
-    private BooleanExpression applyMedit(Boolean activate) {
-        if (!activate) {
+    private BooleanExpression applyMedit(String activate) {
+        if (activate == null) {
             return null;
         }
         return memberSurvey.brainwaveResult.meditAvg.goe(30.0);

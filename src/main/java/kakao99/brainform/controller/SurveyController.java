@@ -82,12 +82,13 @@ public class SurveyController {
             @RequestParam(value = "id", required = true) String surveyId,
             @RequestParam(value = "gender", required = false) List<String> genders,
             @RequestParam(value = "age", required = false) List<String> ages,
-            @RequestParam(value = "job", required = false) List<String> jobs) throws ChangeSetPersister.NotFoundException, JsonProcessingException {
+            @RequestParam(value = "job", required = false) List<String> jobs,
+            @RequestParam(value = "active", required = false) String active) throws ChangeSetPersister.NotFoundException, JsonProcessingException {
 
 
         log.info("filter요청 들어옴");
       
-        FilterDTO filterDTO = new FilterDTO(Long.parseLong(surveyId), genders, ages, jobs);
+        FilterDTO filterDTO = new FilterDTO(Long.parseLong(surveyId), genders, ages, jobs, active);
         Survey dataWithFilter = memberSurveyService.getDataWithFilter(filterDTO);
         log.info("resposne={}", mapper.writeValueAsString(dataWithFilter));
 
