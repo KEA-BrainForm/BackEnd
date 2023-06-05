@@ -89,6 +89,7 @@ public class SurveyController {
         log.info("filter요청 들어옴");
       
         FilterDTO filterDTO = new FilterDTO(Long.parseLong(surveyId), genders, ages, jobs, active);
+        log.info(mapper.writeValueAsString(filterDTO));
         Survey dataWithFilter = memberSurveyService.getDataWithFilter(filterDTO);
         log.info("resposne={}", mapper.writeValueAsString(dataWithFilter));
 

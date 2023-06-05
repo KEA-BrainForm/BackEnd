@@ -66,20 +66,20 @@ public class Survey {
     private Member member;
 
 
-    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonBackReference
     @JsonIgnore
     private List<MemberSurvey> memberSurveys;
 
-    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<YesOrNoQuestion> yesOrNoQuestions;
 
-    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<MultipleChoiceQuestion> multipleChoiceQuestions;
 
-    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<SubjectiveQuestion> subjectiveQuestions;
 
