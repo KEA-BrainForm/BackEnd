@@ -28,7 +28,7 @@ public class FileUtil {
 
     @PostConstruct
     public void init() {
-        brainWaveFolderPath = absolutePath + "src/main/resources/static/images/brainwave/";
+        brainWaveFolderPath = absolutePath + "src//main//resources//static//images//brainwave//";
     }
 
     // uuid 추가한 이미지 이름 반환

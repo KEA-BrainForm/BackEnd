@@ -26,7 +26,7 @@ import java.io.InputStream;
 @Slf4j
 @RequiredArgsConstructor
 public class BrainWaveController {
-
+    private final ChatController chatController;
     private final BrainWaveCodeRepository brainWaveCodeRepository;
     private final BrainWaveService brainWaveService;
 
@@ -84,10 +84,12 @@ public class BrainWaveController {
     public BrainDataDTO postBrainData(@RequestParam("braindata") String brainData,
                                       @RequestParam("image") MultipartFile image) throws IOException {
 
-
+        log.info("뇌파 이미지={}", image.getOriginalFilename());
         BrainDataDTO brainDataDTO = new ObjectMapper().readValue(brainData, BrainDataDTO.class);
         brainDataDTO.setImage(image);
-
+        log.info("뇌파 이미지={}", brainDataDTO.getImage().getOriginalFilename());
+        ResponseEntity<?> response = chatController.sendFinished(); // 소켓으로 완료 요청 보냄
+        System.out.println("response 내용: " + response);
         brainWaveService.saveBrainWave(brainDataDTO);
 
         return brainDataDTO;
