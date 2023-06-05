@@ -21,8 +21,12 @@ public class BrainwaveResult {
     @Column(name = "brainwave_img")
     private String img;
 
-    private String temp_1;
-    private String temp_2;
+    @Column(name = "att_avg")
+    private Float attAvg;
+
+    @Column(name = "medit_avg")
+    private Float meditAvg;
+
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "participate_id")

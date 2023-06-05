@@ -1,4 +1,4 @@
-package kakao99.brainform.controller.Socket;
+package kakao99.brainform.controller;
 
 import kakao99.brainform.dto.ChatMessageDto;
 import lombok.RequiredArgsConstructor;

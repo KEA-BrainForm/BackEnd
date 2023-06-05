@@ -22,15 +22,15 @@ public class QBrainwaveResult extends EntityPathBase<BrainwaveResult> {
 
     public static final QBrainwaveResult brainwaveResult = new QBrainwaveResult("brainwaveResult");
 
+    public final NumberPath<Float> attAvg = createNumber("attAvg", Float.class);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath img = createString("img");
 
+    public final NumberPath<Float> meditAvg = createNumber("meditAvg", Float.class);
+
     public final QMemberSurvey memberSurvey;
-
-    public final StringPath temp_1 = createString("temp_1");
-
-    public final StringPath temp_2 = createString("temp_2");
 
     public QBrainwaveResult(String variable) {
         this(BrainwaveResult.class, forVariable(variable), INITS);
