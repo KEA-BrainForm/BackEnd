@@ -42,6 +42,10 @@ public class SurveyDTO {
 
     private Date updatedAt;
 
+    private Date endDate;
+
+    private Date startDate;
+
     private Member member;
 
     private List<YesOrNoQuestion> yesOrNoQuestions;
@@ -61,6 +65,8 @@ public class SurveyDTO {
         this.yesOrNoQuestions = survey.getYesOrNoQuestions();
         this.multipleChoiceQuestions = survey.getMultipleChoiceQuestions();
         this.subjectiveQuestions = survey.getSubjectiveQuestions();
+        this.startDate=survey.getStartDate();
+        this.endDate=survey.getEndDate();
 
         return this;
     }

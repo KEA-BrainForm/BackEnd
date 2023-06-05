@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -22,7 +23,11 @@ public class PatchQuestoinDTO{
 
     private List<CreateQuestionInput> idDeleteList;
     private List<SavedQuestionInput> numDeleteList;
+    @NotNull
+    private Date startDate;
 
+    @NotNull
+    private Date endDate;
 
     @NotNull
     private String visibility;

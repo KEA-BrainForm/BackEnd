@@ -52,7 +52,6 @@ public class AnswerService {
 
                 MultipleChoiceQuestion multipleChoiceQuestion = multipleChoiceQuestionRepository.findMultipleChoiceQuestionById(questionId);
                 MultipleChoiceAnswer multipleChoiceAnswer = MultipleChoiceAnswer.builder()
-
                         .answer(questionList.get(i).getAnswer())
                         .multipleChoiceQuestion(multipleChoiceQuestion)
                         .memberSurvey(memberSurvey)
@@ -66,7 +65,6 @@ public class AnswerService {
 //                subjectiveAnswer.setAnswer(questionList.get(i).getAnswer());
                 SubjectiveQuestion subjectiveQuestion = subjectiveQuestionRepository.findSubjectiveQuestionById(questionId);
                 SubjectiveAnswer subjectiveAnswer = SubjectiveAnswer.builder()
-
                         .answer(questionList.get(i).getAnswer())
                         .subjectiveQuestion(subjectiveQuestion)
                         .memberSurvey(memberSurvey)
@@ -83,7 +81,6 @@ public class AnswerService {
 //                yesOrNoAnswer.setMemberSurvey(memberSurvey);
 
                 YesOrNoAnswer yesOrNoAnswer = YesOrNoAnswer.builder()
-
                         .answer(Boolean.parseBoolean(questionList.get(i).getAnswer()))
                         .yesOrNoQuestion(yesOrNoQuestion)
                         .memberSurvey(memberSurvey)

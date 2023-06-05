@@ -40,6 +40,8 @@ public class QuestionController {
         System.out.println("obj.getVisibility = " + obj.getVisibility());   // 공개 여부
         System.out.println("obj.getWearable = " + obj.getWearable());       // 기기 착용 필수 여부
         System.out.println("obj.getSurveyId = " + obj.getSurveyId());
+        System.out.println("obj.getStartDate = " + obj.getStartDate());
+        System.out.println("obj.getEndDate = " + obj.getEndDate());
         List<CreateQuestionInput> questionList = obj.getQuestionList();
         //JWT 토큰에서 저장되어있는 유저 정보 가져오기
         Member member = (Member) authentication.getPrincipal();

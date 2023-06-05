@@ -3,6 +3,9 @@ package kakao99.brainform.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
+
 import kakao99.brainform.dto.TokenDTO;
 import kakao99.brainform.dto.MemberRegisterDTO;
 
@@ -39,7 +42,6 @@ public class MemberController {
 
     private final ObjectMapper objectMapper;
 
-    private final ChatController chatController;
 
     @SneakyThrows
     @PostMapping("/api/register")
