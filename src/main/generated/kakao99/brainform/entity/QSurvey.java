@@ -26,6 +26,8 @@ public class QSurvey extends EntityPathBase<Survey> {
 
     public final DateTimePath<java.util.Date> createdAt = createDateTime("createdAt", java.util.Date.class);
 
+    public final DateTimePath<java.util.Date> endDate = createDateTime("endDate", java.util.Date.class);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath isBrainwave = createString("isBrainwave");
@@ -37,6 +39,8 @@ public class QSurvey extends EntityPathBase<Survey> {
     public final ListPath<MemberSurvey, QMemberSurvey> memberSurveys = this.<MemberSurvey, QMemberSurvey>createList("memberSurveys", MemberSurvey.class, QMemberSurvey.class, PathInits.DIRECT2);
 
     public final ListPath<kakao99.brainform.entity.question.MultipleChoiceQuestion, kakao99.brainform.entity.question.QMultipleChoiceQuestion> multipleChoiceQuestions = this.<kakao99.brainform.entity.question.MultipleChoiceQuestion, kakao99.brainform.entity.question.QMultipleChoiceQuestion>createList("multipleChoiceQuestions", kakao99.brainform.entity.question.MultipleChoiceQuestion.class, kakao99.brainform.entity.question.QMultipleChoiceQuestion.class, PathInits.DIRECT2);
+
+    public final DateTimePath<java.util.Date> startDate = createDateTime("startDate", java.util.Date.class);
 
     public final ListPath<kakao99.brainform.entity.question.SubjectiveQuestion, kakao99.brainform.entity.question.QSubjectiveQuestion> subjectiveQuestions = this.<kakao99.brainform.entity.question.SubjectiveQuestion, kakao99.brainform.entity.question.QSubjectiveQuestion>createList("subjectiveQuestions", kakao99.brainform.entity.question.SubjectiveQuestion.class, kakao99.brainform.entity.question.QSubjectiveQuestion.class, PathInits.DIRECT2);
 
