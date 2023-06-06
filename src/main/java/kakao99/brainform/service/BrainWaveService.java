@@ -3,6 +3,7 @@ package kakao99.brainform.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kakao99.brainform.dto.BrainDataDTO;
+import kakao99.brainform.dto.BrainDataResultDTO;
 import kakao99.brainform.entity.BrainMemberInfo;
 import kakao99.brainform.entity.BrainwaveResult;
 import kakao99.brainform.entity.MemberSurvey;
@@ -61,5 +62,17 @@ public class BrainWaveService {
         log.info("member-survey={}", s);
         memberSurveyRepository.save(survey);
         return new ResponseEntity<>("뇌파 데이터 저장 완료", HttpStatus.OK);
+    }
+
+    public BrainDataResultDTO getBrainWaveResult(Long surveyId, Long memberId) {
+
+        BrainwaveResult byMemberIdAndSurveyId = brainWaveRepository.findByMemberIdAndSurveyId(surveyId, memberId);
+        BrainDataResultDTO brainDataResultDTO = BrainDataResultDTO.builder()
+                .avgAtt(byMemberIdAndSurveyId.getAttAvg())
+                .avgMedit(byMemberIdAndSurveyId.getMeditAvg())
+                .image(byMemberIdAndSurveyId.getImg())
+                .build();
+
+        return brainDataResultDTO;
     }
 }

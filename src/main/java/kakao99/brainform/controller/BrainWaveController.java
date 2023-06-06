@@ -3,6 +3,7 @@ package kakao99.brainform.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import kakao99.brainform.dto.BrainDataDTO;
+import kakao99.brainform.dto.BrainDataResultDTO;
 import kakao99.brainform.entity.BrainMemberInfo;
 import kakao99.brainform.entity.Member;
 import kakao99.brainform.repository.BrainWaveCodeRepository;
@@ -117,5 +118,15 @@ public class BrainWaveController {
 
         log.info("뇌파 측정 종료");
         return new ResponseEntity<>("설문 종료", HttpStatus.OK);
+    }
+
+    @GetMapping("api/member/brainwave/result/{id}")
+    public ResponseEntity<?> getBrainWaveResult(@PathVariable(name = "id") Long id,
+                                                 Authentication authentication) {
+        Member member = (Member) authentication.getPrincipal();
+
+        BrainDataResultDTO brainWaveResult = brainWaveService.getBrainWaveResult(id, member.getId());
+
+        return new ResponseEntity<>(brainWaveResult, HttpStatus.OK);
     }
 }
