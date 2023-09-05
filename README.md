@@ -31,5 +31,4 @@
 ## Monolithic Architecture
 ![Untitled](https://github.com/rkdejr2321/BLoom_server/assets/77061558/ba04261f-ae83-41cb-95aa-e9a29920dd33)
 
-## Microservices Architecture
-![KakaoTalk_Photo_2023-06-08-17-30-57](https://github.com/rkdejr2321/BLoom_server/assets/77061558/4bcb7353-1c80-40e1-ab91-b646473d0024)
+
