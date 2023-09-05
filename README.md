@@ -33,4 +33,5 @@
 
 
 ## 발표 자료
-https://drive.google.com/file/d/1g3vxDSZKQiJhrqRZ_hyQqCuJtIJ7wRAC/view?usp=sharing
+https://drive.google.com/file/d/1yNbpGidOYralnN_OCGmjGvl7oZ6lurpq/view?usp=sharing
+
