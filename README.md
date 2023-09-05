@@ -32,3 +32,5 @@
 ![Untitled](https://github.com/rkdejr2321/BLoom_server/assets/77061558/ba04261f-ae83-41cb-95aa-e9a29920dd33)
 
 
+## 발표 자료
+https://drive.google.com/file/d/1g3vxDSZKQiJhrqRZ_hyQqCuJtIJ7wRAC/view?usp=sharing
